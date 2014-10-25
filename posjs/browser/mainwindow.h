@@ -6,6 +6,14 @@
 class QWebView;
 class QLineEdit;
 
+/**
+ * @class MainWindow
+ * @brief
+ *
+ * @author tony
+ * @date 18-10-2014
+ */
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
