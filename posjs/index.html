@@ -1,0 +1,22 @@
+<html>
+ <head>
+  <script type="text/javascript">
+	  
+    function myfunction(text)
+    {
+        ESCPOSPrinter.init();
+        ESCPOSPrinter.setTextProperties(0,0,0,2,2);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText(text);
+        ESCPOSPrinter.feedControl(0);
+    }
+
+  </script>
+ </head>
+<body>
+    <form name="form1">
+      <input name="entrada">
+      <input type="button" onclick="myfunction(form1.entrada.value)"value="Print">
+    </form>
+ </body>
+</html>
