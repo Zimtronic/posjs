@@ -47,29 +47,29 @@ public:
     Q_INVOKABLE unsigned init();
 
     /**
-     * @brief
-     *
      * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned printRawText(QString text);
 
 
     /**
-     * @brief
-     *
      * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned cutPaper(bool fullCut);
 
     /**
-     * @brief
+     * Possible values ​​for pin parameter: 2, 5
      *
      * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned sendPulseToCashDrawer(unsigned pin);
 
     /**
-     * @brief
+     * Possible values ​​for align parameter: 0->center, 1->right, 2->left
+     * Possible values ​​for font parameter: 0->A, 1->B
+     * Possible values ​​for type parameter: 0->B, 1->U, 2->U2, 3->BU, 4->BU2, 5->Normal
+     * Possible values ​​for width parameter: 1->Normal width, 2->Double width
+     * Possible values ​​for height parameter: 1->Normal heigth, 2->Double heigth
      *
      * @see ITicketPrinter
      */
@@ -78,14 +78,14 @@ public:
                                            unsigned height);
 
     /**
-     * @brief
+     * Possible values ​​for crl parameter: 0->LF, 1->FF, 2->CR, 3->HT, 4->VT
      *
      * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned feedControl(unsigned crl);
 
     /**
-     * @brief
+     * Possible values ​​for sizeScale parameter: 0 <= sizeScale <= 10
      *
      * @see ITicketPrinter
      */
