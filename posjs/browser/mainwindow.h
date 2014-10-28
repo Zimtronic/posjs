@@ -5,6 +5,8 @@
 
 class QWebView;
 class QLineEdit;
+class ITicketPrinter;
+class ITransport;
 
 /**
  * @class MainWindow
@@ -30,6 +32,8 @@ protected slots:
     void setProgress(int p);
     void finishLoading(bool);
 
+    void addJSObject();
+
     void viewSource();
     void slotSourceDownloaded();
 
@@ -37,6 +41,8 @@ private:
     QWebView *view;
     QLineEdit *locationEdit;
     int progress;
+    ITicketPrinter *printer;
+    ITransport * transport;
 };
 
 #endif // MAINWINDOW_H

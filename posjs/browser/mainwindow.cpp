@@ -38,12 +38,12 @@ MainWindow::MainWindow(const QUrl& url)
     setCentralWidget(view);
     setUnifiedTitleAndToolBarOnMac(true);
 
-    ITicketPrinter *printer = new ESCPOSPrinter();
-    ITransport * transport = new LinuxUSB();
+    printer = new ESCPOSPrinter();
+    transport = new LinuxUSB();
     printer->setTransport(transport);
 
-    QWebFrame *frame = view->page()->mainFrame();
-    frame->addToJavaScriptWindowObject("ESCPOSPrinter", (ESCPOSPrinter*)printer);
+    QObject::connect(view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()),
+                         this, SLOT(addJSObject()));
 }
 
 MainWindow::~MainWindow()
@@ -99,4 +99,10 @@ void MainWindow::finishLoading(bool)
 {
     progress = 100;
     adjustTitle();
+}
+
+void MainWindow::addJSObject()
+{
+    QWebFrame *frame = view->page()->mainFrame();
+    frame->addToJavaScriptWindowObject("ESCPOSPrinter", (ESCPOSPrinter*)printer);
 }
