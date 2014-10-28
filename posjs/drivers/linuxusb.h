@@ -6,10 +6,10 @@
 
    /**
     * @class LinuxUSB
-    * @brief Clase que implementa la interfaz @ITransport.
+    * @brief @ITransport implementation.
     *
-    * Implementa las funcionalidades necesarias la comunicacion
-    * USB en linux. Hace uso de la biblioteca libusb.
+    * This class lets read and write data using USB interface,
+    * for this purpose used the libusb library.
     *
     * @author tony
     * @date 18-10-2014
@@ -19,42 +19,38 @@ class LinuxUSB : public ITransport
 {
 public:
     /**
-     * @brief Constructor de la clase
+     * @brief Class builder.
      */
     LinuxUSB();
 
     /**
-     * @brief Destructor de la clase
+     * @brief Class destroyer.
      */
     ~LinuxUSB();
 
     /**
-     * @brief Inicializa la biblioteca libusb, encuentra los buses y
-     * los dispositivos usb del sistema. Verifica si el dispositivo
-     * configurado se encuentra conectado en algun bus del sistema,
-     * si el disposito no aparece se devuelve el codigo de error
-     * correspondiente.
+     * @brief Initialize the libusb library, find busses and devices.
      *
      * @see ITransport
      */
     unsigned open();
 
     /**
-     * @brief Cierra la interface USB, libera el handle de la comunicacion.
+     * @brief Close usb interface and release the communication handler.
      *
      * @see ITransport
      */
     unsigned close();
 
     /**
-     * @brief Trata de leer datos del puerto USB.
+     * @brief Read bytes from usb port.
      *
      * @see ITransport
      */
     unsigned read(unsigned char* buffer, unsigned &bufferSize, unsigned timeOut);
 
     /**
-     * @brief Trata de escribir datos en el puerto USB.
+     * @brief Write bytes to usb port.
      *
      * @see ITransport
      */
@@ -86,9 +82,9 @@ private:
     unsigned inEndPoint; /**< */
     unsigned outEndPoint; /**< */
 
-    struct usb_dev_handle *handle; /**< Manipulador para la conexion con el dispositivo USB. */
+    struct usb_dev_handle *handle; /**< Connection handler. */
 
-    bool isOpen; /**< Estado de la conexion. */
+    bool isOpen; /**< Connection state. */
 };
 
 #endif // LINUXUSB_H

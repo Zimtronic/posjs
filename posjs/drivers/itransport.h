@@ -5,7 +5,6 @@
     * @class ITransport
     * @brief Transport interface
     *
-    *
     * @author tony
     * @date 17-10-2014
     */
@@ -14,31 +13,26 @@ class ITransport
 {
 public:
     /**
-     * @brief Abre la interfaz de comunicacion. El metodo devuelve un codigo
-     * de error.
+     * @brief Open connection with device. Return an error code.
      */
     virtual unsigned open() = 0;
 
     /**
-     * @brief Cierra la interfaz de comunicacion. El metodo devuelve un codigo
-     * de error.
+     * @brief Close connection. Return an error code.
      */
     virtual unsigned close() = 0;
 
     /**
-     * @brief Tratan de leer bufferSize bytes de datos de la interfaz en
-     * cuestion, el resultado se deposita en buffer. La lectura es sincronica,
-     * se espera por el resultado el tiempo en milisegundos que se indique en
-     * el parametro timeOut.
+     * @brief Try to read bufferSize bytes from the current interface.
+     * The read bytes are storage in buffer. This function is synchronous,
+     * wait timeOut ms for result.
      */
     virtual unsigned read(unsigned char* buffer, unsigned &bufferSize,
                           unsigned timeOut) = 0;
 
     /**
-     * @brief Tratan de escribir bufferSize bytes de datos en la interfaz en
-     * cuestion. La escritura es sincronica, se espera por el resultado de la
-     * operacion el tiempo en milisegundos que se indique en el parametro timeOut.
-     * En bufferSize se deposita la cantidad de bytes que realmente fueron escritos.
+     * @brief Try to write bufferSize bytes from the current interface,
+     * bufferSize store bytes really written.
      */
     virtual unsigned write(unsigned char* buffer, unsigned &bufferSize,
                            unsigned timeOut) = 0;

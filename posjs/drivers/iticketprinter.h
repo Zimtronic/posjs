@@ -45,7 +45,7 @@ public:
                                        unsigned height) = 0;
 
     /**
-     * @brief
+     * @brief Send feed control sequences.
      */
     virtual unsigned feedControl(unsigned crl) = 0;
 

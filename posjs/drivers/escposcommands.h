@@ -4,7 +4,6 @@
    /**
     *@brief ESC/POS protocol commands
     *
-    *
     *@author tony
     *@date 18-10-2014
     */
