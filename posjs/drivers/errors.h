@@ -2,8 +2,7 @@
 #define ERRORS_H
 
    /**
-    * @brief En esta cabecera se definen los codigos
-    * de error
+    * @brief Error codes definitions
     *
     *
     * @author tony
@@ -34,8 +33,7 @@ const unsigned errPrinterUndefineFont = 12; /**< */
 const unsigned errPrinterUndefineType = 13; /**< */
 
 /**
- * @brief Arreglo con la informacion relativa a cada
- * codido de error.
+ * @brief Error codes information.
  */
 static const char *errorsString[] =
 {

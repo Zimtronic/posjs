@@ -49,6 +49,8 @@ MainWindow::MainWindow(const QUrl& url)
 MainWindow::~MainWindow()
 {
     delete view;
+    delete transport;
+    delete printer;
 }
 
 void MainWindow::viewSource()

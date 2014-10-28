@@ -2,7 +2,7 @@
 //define ESCPOSCOMMANDS_H
 
    /**
-    *@brief Comandos del protocolo ESC/POS
+    *@brief ESC/POS protocol commands
     *
     *
     *@author tony

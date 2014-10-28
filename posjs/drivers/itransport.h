@@ -3,7 +3,7 @@
 
    /**
     * @class ITransport
-    * @brief Interfaz para los tipos de transporte
+    * @brief Transport interface
     *
     *
     * @author tony

@@ -13,11 +13,10 @@
 
    /**
     * @class ESCPOSPrinter
-    * @brief Clase que implementa la interfaz @ITicketPrinter.
+    * @brief @ITicketPrinter implementation.
     *
-    * Implementa las funcionalidades necesarias para imprimir
-    * tickets mediante el uso de impresoras termicas que utilicen
-    * el protocolo ESC/POS y se comuniquen por USB.
+    * This class has methods to print tickets using thermal
+    * printers that use the ESC/POS  protocol over USB.
     *
     * @author tony
     * @date 18-10-2014
@@ -30,15 +29,18 @@ class ESCPOSPrinter : public QObject, public ITicketPrinter
 
 public:
     /**
-     * @brief Contructor de la clase. Se inicia el atributo timeout.
+     * @brief Class builder.
      */
     ESCPOSPrinter();
 
-    ~ESCPOSPrinter();
+    /**
+     * @brief Class destroyer.
+     */
+    virtual ~ESCPOSPrinter();
 
     /**
-     * @brief Trata de abrir el puerto USB de la impresora y en caso de
-     * exito envia el comando de inicio.
+     * @brief Try to open USB port and send the init
+     * command to the printer.
      *
      * @see ITicketPrinter
      */
@@ -90,8 +92,7 @@ public:
     Q_INVOKABLE unsigned printImage(QString pathImage, unsigned rightTab, unsigned sizeScale);
 
     /**
-     * @brief Devuelve informacion en forma de cadena de caracteres
-     * sobre cada codigo de error.
+     * @brief Return error codes information.
      */
     Q_INVOKABLE QString getErrorString(unsigned errorCode);
 
@@ -101,7 +102,7 @@ public:
 private:
     BitmapData getBitmap(QString pathImage, unsigned sizeScale);
 
-    unsigned timeout; /**< Timeout para las operaciones sobre el puerto USB. */
+    unsigned timeout; /**<Read and write operations timeout. */
     unsigned char * buffer;
     unsigned cursor;
 };
