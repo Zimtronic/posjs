@@ -2,6 +2,11 @@
 #define ESCPOSPRINTER_H
 
 #include <QObject>
+#include <QtWidgets>
+#include <QBitArray>
+#include <QBitmap>
+#include <QImage>
+#include <QRgb>
 
 #include "iticketprinter.h"
 #include "errors.h"
@@ -18,6 +23,7 @@
     * @date 18-10-2014
     */
 
+class BitmapData;
 class ESCPOSPrinter : public QObject, public ITicketPrinter
 {
     Q_OBJECT
@@ -27,6 +33,8 @@ public:
      * @brief Contructor de la clase. Se inicia el atributo timeout.
      */
     ESCPOSPrinter();
+
+    ~ESCPOSPrinter();
 
     /**
      * @brief Trata de abrir el puerto USB de la impresora y en caso de
@@ -43,13 +51,6 @@ public:
      */
     Q_INVOKABLE unsigned printRawText(QString text);
 
-
-    /**
-     * @brief
-     *
-     * @see ITicketPrinter
-     */
-    unsigned printRawText(unsigned char * text, unsigned textSize);
 
     /**
      * @brief
@@ -82,6 +83,13 @@ public:
     Q_INVOKABLE unsigned feedControl(unsigned crl);
 
     /**
+     * @brief
+     *
+     * @see ITicketPrinter
+     */
+    Q_INVOKABLE unsigned printImage(QString pathImage, unsigned rightTab, unsigned sizeScale);
+
+    /**
      * @brief Devuelve informacion en forma de cadena de caracteres
      * sobre cada codigo de error.
      */
@@ -91,7 +99,19 @@ public:
     Q_INVOKABLE void setTimeout(const unsigned &value);
 
 private:
+    BitmapData getBitmap(QString pathImage, unsigned sizeScale);
+
     unsigned timeout; /**< Timeout para las operaciones sobre el puerto USB. */
+    unsigned char * buffer;
+    unsigned cursor;
+};
+
+class BitmapData
+{
+public:
+    QBitArray Dots;
+    int Height;
+    int Width;
 };
 
 #endif // ESCPOSPRINTER_H

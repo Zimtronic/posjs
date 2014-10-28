@@ -5,10 +5,12 @@
     function myfunction(text)
     {
         ESCPOSPrinter.init();
-        ESCPOSPrinter.setTextProperties(0,0,0,2,2);
-        ESCPOSPrinter.feedControl(0);
-        ESCPOSPrinter.printRawText(text);
-        ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.setTextProperties(0,0,0,2,2);
+        //ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.printRawText(text);
+        //ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.cutPaper(true);
+        ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/LogoIN.jpg", 2, 7);
     }
 
   </script>

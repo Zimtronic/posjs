@@ -7,6 +7,13 @@ using namespace std;
 ESCPOSPrinter::ESCPOSPrinter()
 {
     this->timeout = 1000;
+    this->cursor = 0;
+    this->buffer = new unsigned char[22000];
+}
+
+ESCPOSPrinter::~ESCPOSPrinter()
+{
+    delete [] buffer;
 }
 
 unsigned ESCPOSPrinter::init()
@@ -22,12 +29,8 @@ unsigned ESCPOSPrinter::init()
 
 unsigned ESCPOSPrinter::printRawText(QString text)
 {
-    return printRawText((unsigned char*)text.toStdString().c_str(), text.length());
-}
-
-unsigned ESCPOSPrinter::printRawText(unsigned char *text, unsigned textSize)
-{
-    unsigned result = transport->write(text, textSize, this->timeout);
+    unsigned textSize = text.length();
+    unsigned result = transport->write((unsigned char*)text.toStdString().c_str(), textSize, this->timeout);
     return result;
 }
 
@@ -210,6 +213,118 @@ unsigned ESCPOSPrinter::feedControl(unsigned crl)
         break;
     }
     return result;
+}
+
+unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab, unsigned sizeScale)
+{
+    BitmapData data = getBitmap(pathImage, sizeScale);
+    QBitArray dots = data.Dots;
+
+    union Mywidth
+    {
+        unsigned char byte[2];
+        unsigned short widthshort;
+    };
+
+    Mywidth width;
+    width.widthshort = data.Width;
+
+    int offset = 0;
+
+    buffer[cursor++] = 0x1B;
+    buffer[cursor++] = '@';
+
+    buffer[cursor++] = 0x1B;
+    buffer[cursor++] = '3';
+    buffer[cursor++] = 24;
+
+    while (offset < data.Height)
+    {
+        for (unsigned h = 0; h < rightTab; ++h)
+        {
+            buffer[cursor++] = 9;
+        }
+
+        buffer[cursor++] = 0x1B;
+        buffer[cursor++] = '*';
+        buffer[cursor++] = 33;
+        buffer[cursor++] = width.byte[0];
+        buffer[cursor++] = width.byte[1];
+
+        for (int x = 0; x < data.Width; ++x)
+        {
+            for (int k = 0; k < 3; ++k)
+            {
+                char slice = 0;
+                for (int b = 0; b < 8; ++b)
+                {
+                    int y = (((offset / 8) + k) * 8) + b;
+                    int i = (y * data.Width) + x;
+                    bool v = false;
+                    if (i < dots.size())
+                    {
+                        v = dots[i];
+                    }
+                    slice |= (char)((v ? 1 : 0) << (7 - b));
+                }
+                buffer[cursor++] = slice;
+            }
+        }
+        offset += 24;
+        buffer[cursor++] = 0x0A;
+    }
+    buffer[cursor++] = 0x1B;
+    buffer[cursor++] = '3';
+    buffer[cursor++] = 30;
+
+    unsigned result = transport->write(this->buffer, this->cursor, this->timeout);
+    this->cursor = 0;
+    return result;
+}
+
+BitmapData ESCPOSPrinter::getBitmap(QString pathImage, unsigned sizeScale)
+{
+    QImage im(pathImage);
+    im = im.convertToFormat(QImage::Format_Mono);
+
+    if(im.width() > 480)
+        im = im.scaledToWidth(480);
+    if(im.height() > 480)
+        im = im.scaledToHeight(480);
+
+    QBitmap bitmap = QBitmap::fromImage(im, Qt::MonoOnly);
+
+    int threshold = 127;
+    int index = 0;
+
+    if(sizeScale > 10)
+        sizeScale = 10;
+
+    double multiplier = 35*sizeScale;
+    double scale = (double)(multiplier/(double)bitmap.width());
+    int xheight = (int)(bitmap.height() * scale);
+    int xwidth = (int)(bitmap.width() * scale);
+    int dimensions = xwidth * xheight;
+    QBitArray dots(dimensions);
+
+    for (int y = 0; y < xheight; y++)
+    {
+        for (int x = 0; x < xwidth; x++)
+        {
+            double _x = (int)(x / scale);
+            double _y = (int)(y / scale);
+            QRgb color = bitmap.toImage().pixel(_x, _y);
+            double luminance = (int)(qRed(color) * 0.3 + qGreen(color) * 0.59 +  qBlue(color) * 0.11);
+            dots[index] = (luminance < threshold);
+            index++;
+        }
+    }
+
+    BitmapData data;
+    data.Dots = dots;
+    data.Height = (int)(bitmap.height()*scale);
+    data.Width = (int)(bitmap.width()*scale);
+    return data;
 }
 
 unsigned ESCPOSPrinter::getTimeout() const

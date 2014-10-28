@@ -12,6 +12,8 @@
     *@date 17-10-2014
     */
 
+class QString;
+
 class ITicketPrinter
 {
 public:
@@ -26,7 +28,7 @@ public:
      * @brief Una vez configurada la impresora y formateado el texto, mediante
      * este metodo se envia a imprimir texto plano.
      */
-    virtual unsigned printRawText(unsigned char * text, unsigned textSize) = 0;
+    virtual unsigned printRawText(QString text) = 0;
 
     /**
      * @brief Como indica su nombre este metodo le indica a la impresora de
@@ -52,6 +54,11 @@ public:
      * @brief
      */
     virtual unsigned feedControl(unsigned crl) = 0;
+
+    /**
+     * @brief Print bitmap image given a path.
+     */
+    virtual unsigned printImage(QString pathImage, unsigned rightTab, unsigned sizeScale) = 0;
 
     ITransport *getTransport() const;
     void setTransport(ITransport *value);
