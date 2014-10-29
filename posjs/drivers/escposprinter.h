@@ -89,7 +89,50 @@ public:
      *
      * @see ITicketPrinter
      */
-    Q_INVOKABLE unsigned printImage(QString pathImage, unsigned rightTab, unsigned sizeScale);
+    Q_INVOKABLE unsigned printImage(QString pathImage, unsigned rightTab,
+                                    unsigned sizeScale);
+
+
+    /**
+     * @brief Encode and print barcode
+     *
+     * @param code
+     * String to be encoded in the barcode.
+     * Different barcodes have different requirements on the length
+     * of data that can be encoded.
+     * @param type
+     * Specify the type of barcode
+     * 65 = UPC-A.
+     * 66 = UPC-E.
+     * 67 = JAN13(EAN).
+     * 68 = JAN8(EAN).
+     * 69 = CODE39.
+     * 70 = ITF.
+     * 71 = CODABAR.
+     * 72 = CODE93.
+     * 73 = CODE128.
+     * @param h
+     * height of the barcode in points (1 <= n <= 255)
+     * @param w
+     * width of module (2 <= n <=6).
+     * Barcode will not print if this value is too large.
+     * @param font
+     * Set font of HRI characters
+     * 0 = font A
+     * 1 = font B
+     * @param pos
+     * set position of HRI characters
+     * 0 = not printed.
+     * 1 = Above barcode.
+     * 2 = Below barcode.
+     * 3 = Both above and below barcode.
+     */
+    Q_INVOKABLE unsigned printBarcode(QString code, unsigned type,
+                                      unsigned width, unsigned height,
+                                      unsigned pos, unsigned font);
+
+    Q_INVOKABLE unsigned printQRCode(QString code, unsigned errCorrect,
+                                     unsigned moduleSize);
 
     /**
      * @brief Return error codes information.
@@ -103,8 +146,6 @@ private:
     BitmapData getBitmap(QString pathImage, unsigned sizeScale);
 
     unsigned timeout; /**<Read and write operations timeout. */
-    unsigned char * buffer;
-    unsigned cursor;
 };
 
 class BitmapData

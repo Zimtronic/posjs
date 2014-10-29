@@ -32,6 +32,11 @@ const unsigned errPrinterUndefineAlign = 11; /**< */
 const unsigned errPrinterUndefineFont = 12; /**< */
 const unsigned errPrinterUndefineType = 13; /**< */
 
+const unsigned errBarcodeSize = 14;
+const unsigned errBarcodeType = 15;
+const unsigned errBarcodeFont = 16;
+const unsigned errBarcodeTextPos = 17;
+
 /**
  * @brief Error codes information.
  */

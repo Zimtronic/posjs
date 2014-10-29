@@ -7,10 +7,21 @@
         ESCPOSPrinter.init();
         //ESCPOSPrinter.setTextProperties(0,0,0,2,2);
         //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printRawText(text);
+        //ESCPOSPrinter.printRawText("Rene ....Probando");
+        //ESCPOSPrinter.setTextProperties(0,0,0,1,1);
+        //ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.printRawText("_____________________");
+        //ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.printRawText("Tony ....Probando");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/uci.jpg.jpeg", 0, 5);
+        ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.cutPaper(true);
-        ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/LogoIN.jpg", 2, 7);
+        ESCPOSPrinter.printBarcode("123TONY", 69, 2, 50, 0, 1);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printQRCode("hola mundo", 51, 8);
+        ESCPOSPrinter.feedControl(0);
     }
 
   </script>

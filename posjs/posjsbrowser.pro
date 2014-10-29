@@ -6,7 +6,7 @@
 
 QT   += core webkitwidgets network widgets
 
-LIBS += -L/usr/lib/i386-linux-gnu
+LIBS += -L/usr/lib/$$system(uname -i)-linux-gnu
 LIBS += -lusb
 
 TARGET = posjsbrowser
@@ -29,3 +29,6 @@ HEADERS += \
     drivers/escposprinter.h \
     drivers/escposcommands.h \
     drivers/errors.h
+
+RESOURCES += \
+    resource.qrc

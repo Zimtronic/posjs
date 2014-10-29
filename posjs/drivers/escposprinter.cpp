@@ -7,13 +7,10 @@ using namespace std;
 ESCPOSPrinter::ESCPOSPrinter()
 {
     this->timeout = 1000;
-    this->cursor = 0;
-    this->buffer = new unsigned char[22000];
 }
 
 ESCPOSPrinter::~ESCPOSPrinter()
 {
-    delete [] buffer;
 }
 
 unsigned ESCPOSPrinter::init()
@@ -215,7 +212,8 @@ unsigned ESCPOSPrinter::feedControl(unsigned crl)
     return result;
 }
 
-unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab, unsigned sizeScale)
+unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab,
+                                   unsigned sizeScale)
 {
     BitmapData data = getBitmap(pathImage, sizeScale);
     QBitArray dots = data.Dots;
@@ -230,6 +228,8 @@ unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab, unsigne
     width.widthshort = data.Width;
 
     int offset = 0;
+    unsigned cursor = 0;
+    unsigned char buffer[22000];
 
     buffer[cursor++] = 0x1B;
     buffer[cursor++] = '@';
@@ -277,8 +277,7 @@ unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab, unsigne
     buffer[cursor++] = '3';
     buffer[cursor++] = 30;
 
-    unsigned result = transport->write(this->buffer, this->cursor, this->timeout);
-    this->cursor = 0;
+    unsigned result = transport->write(buffer, cursor, this->timeout);
     return result;
 }
 
@@ -325,6 +324,123 @@ BitmapData ESCPOSPrinter::getBitmap(QString pathImage, unsigned sizeScale)
     data.Height = (int)(bitmap.height()*scale);
     data.Width = (int)(bitmap.width()*scale);
     return data;
+}
+
+unsigned ESCPOSPrinter::printBarcode(QString code, unsigned type,
+                                     unsigned width, unsigned height,
+                                     unsigned pos, unsigned font)
+{
+    if(pos > 3)
+        return errBarcodeTextPos;
+    if(width < 2 || width > 6 || height < 1 || height > 255)
+        return errBarcodeSize;
+    if(type < 65 || type > 73)
+        return errBarcodeType;
+
+    unsigned index = 0;
+    unsigned char cmd[32];
+    cmd[index++] = 0x1D;
+    cmd[index++] = 'H';
+    cmd[index++] = pos; //0=no print, 1=above, 2=below, 3=above & below
+
+    //GS f = set barcode characters
+    cmd[index++] = 0x1D;
+    cmd[index++] = 'f';
+    cmd[index++] = font;
+
+    //GS h = sets barcode height
+    cmd[index++] = 0x1D;
+    cmd[index++] = 'h';
+    cmd[index++] = height;
+
+    //GS w = sets barcode width
+    cmd[index++] = 0x1D;
+    cmd[index++] = 'w';
+    cmd[index++] = width;//module = 1-6
+
+    //GS k
+    cmd[index++] = 0x1D;
+    cmd[index++] = 'k';
+    cmd[index++] = type; //m = barcode type 0-6
+    cmd[index++] = code.length();
+
+    unsigned result;
+    result = transport->write(cmd, index, this->timeout);
+    if(result != OK)
+        return result;
+
+    //Print Code
+    unsigned codeSize = code.length();
+    result = transport->write((unsigned char*)code.toStdString().c_str(), codeSize, this->timeout);
+    if(result != OK)
+        return result;
+
+    unsigned char zero[] = {0x0};
+    unsigned l = 1;
+    result = transport->write(zero, l, this->timeout);
+    return result;
+}
+
+unsigned ESCPOSPrinter::printQRCode(QString code, unsigned errCorrect, unsigned moduleSize)
+{
+    unsigned index = 0;
+    unsigned char cmd[32];
+
+    //save data function 80
+    cmd[index++] = 0x1D;
+    cmd[index++] = '(';
+    cmd[index++] = 'k';//adjust height of barcode
+    cmd[index++] = code.length()+3;
+    cmd[index++] = 0;
+    cmd[index++] = 49;
+    cmd[index++] = 80;
+    cmd[index++] = 48;
+
+    unsigned result;
+    result = transport->write(cmd, index, this->timeout);
+    if(result != OK)
+        return result;
+
+    //Print Code
+    unsigned codeSize = code.length();
+    result = transport->write((unsigned char*)code.toStdString().c_str(), codeSize, this->timeout);
+    if(result != OK)
+        return result;
+
+    index = 0;
+
+    //error correction function 69
+    cmd[index++] = 0x1D;
+    cmd[index++] = '(';
+    cmd[index++] = 'k';
+    cmd[index++] = 3;
+    cmd[index++] = 0;
+    cmd[index++] = 49;
+    cmd[index++] = 69;
+    cmd[index++] = errCorrect; //48<= n <= 51
+
+    //size function 67
+    cmd[index++] = 0x1D;
+    cmd[index++] = '(';
+    cmd[index++] = 'k';
+    cmd[index++] = 3;
+    cmd[index++] = 0;
+    cmd[index++] = 49;
+    cmd[index++] = 67;
+    cmd[index++] = moduleSize; //1<= n <= 16
+
+    //print function 81
+    cmd[index++] = 0x1D;
+    cmd[index++] = '(';
+    cmd[index++] = 'k';
+    cmd[index++] = 3;
+    cmd[index++] = 0;
+    cmd[index++] = 49;
+    cmd[index++] = 81;
+    cmd[index++] = 48;
+
+    result = transport->write(cmd, index, this->timeout);
+    return result;
 }
 
 unsigned ESCPOSPrinter::getTimeout() const

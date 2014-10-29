@@ -52,7 +52,21 @@ public:
     /**
      * @brief Print bitmap image given a path.
      */
-    virtual unsigned printImage(QString pathImage, unsigned rightTab, unsigned sizeScale) = 0;
+    virtual unsigned printImage(QString pathImage, unsigned rightTab,
+                                unsigned sizeScale) = 0;
+
+    /**
+     * @brief Print barcode.
+     */
+    virtual unsigned printBarcode(QString code, unsigned type,
+                                  unsigned width, unsigned height,
+                                  unsigned pos, unsigned font) = 0;
+
+    /**
+     * @brief Print QR Code.
+     */
+    virtual unsigned printQRCode(QString code, unsigned errCorrect,
+                                 unsigned moduleSize) = 0;
 
     ITransport *getTransport() const;
     void setTransport(ITransport *value);

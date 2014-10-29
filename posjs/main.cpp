@@ -5,7 +5,9 @@ int main(int argc, char * argv[])
 {
     QApplication app(argc, argv);
 
-    MainWindow browser(QUrl("file:///home/tony/Desktop/git/posjs/index.html"));
+    Q_INIT_RESOURCE(resource);
+
+    MainWindow browser(QUrl("qrc:/index.html"));
 
     browser.show();
     return app.exec();

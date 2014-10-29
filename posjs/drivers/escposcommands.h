@@ -1,5 +1,5 @@
-//ifndef ESCPOSCOMMANDS_H
-//define ESCPOSCOMMANDS_H
+#ifndef ESCPOSCOMMANDS_H
+#define ESCPOSCOMMANDS_H
 
    /**
     *@brief ESC/POS protocol commands
@@ -13,6 +13,7 @@
 #define CASHDRAWERLENGTH  3
 #define PAPERCUTLENGTH  3
 #define TEXTFORMATLENGTH  3
+#define BARCODELENGTH  3
 
 
 /**
@@ -64,5 +65,23 @@ unsigned char TXT_ALIGN_RT[] = {0x1b, 0x61, 0x02}; /**< Right justification. */
 unsigned char TXT_COLOR_BLACK[] = {0x1b, 0x72, 0x00}; /**< Default Color. */
 unsigned char TXT_COLOR_RED[] = {0x1b, 0x72, 0x01}; /**< Alternative Color ( Usually Red ). */
 
+/**
+  * @brief Barcode format
+  */
+unsigned char BARCODE_TXT_OFF[] = {0x1d,0x48,0x00}; /**<  HRI barcode chars OFF. */
+unsigned char BARCODE_TXT_ABV[] = {0x1d,0x48,0x01}; /**<  HRI barcode chars above. */
+unsigned char BARCODE_TXT_BLW[] = {0x1d,0x48,0x02}; /**<  HRI barcode chars below. */
+unsigned char BARCODE_TXT_BTH[] = {0x1d,0x48,0x03}; /**<  HRI barcode chars both above and below. */
+unsigned char BARCODE_FONT_A[]  = {0x1d,0x66,0x00}; /**<  Font type A for HRI barcode chars. */
+unsigned char BARCODE_FONT_B[]  = {0x1d,0x66,0x01}; /**<  Font type B for HRI barcode chars. */
+unsigned char BARCODE_HEIGHT[]  = {0x1d,0x68,0x64}; /**<  Barcode Height [1-255]. */
+unsigned char BARCODE_WIDTH[]   = {0x1d,0x77,0x03}; /**<  Barcode Width  [2-6]. */
+unsigned char BARCODE_UPC_A[]   = {0x1d,0x6b,0x00}; /**<  Barcode type UPC-A. */
+unsigned char BARCODE_UPC_E[]   = {0x1d,0x6b,0x01}; /**<  Barcode type UPC-E. */
+unsigned char BARCODE_EAN13[]   = {0x1d,0x6b,0x02}; /**<  Barcode type EAN13. */
+unsigned char BARCODE_EAN8[]    = {0x1d,0x6b,0x03}; /**<  Barcode type EAN8. */
+unsigned char BARCODE_CODE39[]  = {0x1d,0x6b,0x04}; /**<  Barcode type CODE39. */
+unsigned char BARCODE_ITF[]     = {0x1d,0x6b,0x05}; /**<  Barcode type ITF. */
+unsigned char BARCODE_NW7[]     = {0x1d,0x6b,0x06}; /**<  Barcode type NW7. */
 
-//endif // ESCPOSCOMMANDS_H
+#endif // ESCPOSCOMMANDS_H
