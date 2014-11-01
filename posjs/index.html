@@ -2,10 +2,10 @@
  <head>
   <script type="text/javascript">
 
-    BarcodeScanner.packetRead.connect(onBarcodeArrived)
-    MagneticScanner.packetRead.connect(onBarcodeArrived)
+    BarcodeScanner.packetRead.connect(onPacketArrived)
+    MagneticScanner.packetRead.connect(onPacketArrived)
 
-    function onBarcodeArrived(packet)
+    function onPacketArrived(packet)
     {
         alert(packet);
         //form1.entrada.value = packet;

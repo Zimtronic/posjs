@@ -42,7 +42,7 @@ void GenericHIDScanner::run()
 
         do
         {
-            result = hid->read(buf, bufferSize, 1000);
+            result = hid->read(buf, bufferSize, 100);
             if(result == OK)
             {
                 if(buf[2])
@@ -54,7 +54,7 @@ void GenericHIDScanner::run()
 
                     packet[packetIndex++] = hidTable[(int)buf[2]][ctrol];
                 }
-                cout << packet[packetIndex-1] << endl;
+//                cout << packet[packetIndex-1] << endl;
             }
         }while(result == OK);
 
