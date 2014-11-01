@@ -5,6 +5,7 @@
 
 #include "drivers/escposprinter.h"
 #include "drivers/linuxusb.h"
+#include "drivers/generichidscanner.h"
 
 MainWindow::MainWindow(const QUrl& url)
 {
@@ -42,8 +43,17 @@ MainWindow::MainWindow(const QUrl& url)
     transport = new LinuxUSB();
     printer->setTransport(transport);
 
+    hidBarcode = new GenericHIDScanner();
+    hidBarcode->start();
+
+    hidMagnetic = new GenericHIDScanner();
+    hidMagnetic->setIdProduct(0x0001);
+    hidMagnetic->setIdVendor(0x0801);
+    hidMagnetic->start();
+
     QObject::connect(view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()),
                          this, SLOT(addJSObject()));
+
 }
 
 MainWindow::~MainWindow()
@@ -107,4 +117,6 @@ void MainWindow::addJSObject()
 {
     QWebFrame *frame = view->page()->mainFrame();
     frame->addToJavaScriptWindowObject("ESCPOSPrinter", (ESCPOSPrinter*)printer);
+    frame->addToJavaScriptWindowObject("BarcodeScanner", hidBarcode);
+    frame->addToJavaScriptWindowObject("MagneticScanner", hidMagnetic);
 }

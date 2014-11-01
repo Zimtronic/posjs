@@ -5,8 +5,10 @@
 
 class QWebView;
 class QLineEdit;
+
 class ITicketPrinter;
 class ITransport;
+class GenericHIDScanner;
 
 /**
  * @class MainWindow
@@ -43,6 +45,8 @@ private:
     int progress;
     ITicketPrinter *printer;
     ITransport * transport;
+    GenericHIDScanner *hidBarcode;
+    GenericHIDScanner *hidMagnetic;
 };
 
 #endif // MAINWINDOW_H

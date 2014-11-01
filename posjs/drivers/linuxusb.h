@@ -74,13 +74,13 @@ public:
     unsigned getConfiguration() const;
     void setConfiguration(const unsigned &value);
 
-private:
+protected:
     unsigned idProduct; /**< */
     unsigned idVendor; /**< */
     unsigned interface; /**< */
     unsigned configuration; /**< */
-    unsigned inEndPoint; /**< */
-    unsigned outEndPoint; /**< */
+    int inEndPoint; /**< */
+    int outEndPoint; /**< */
 
     struct usb_dev_handle *handle; /**< Connection handler. */
 

@@ -22,20 +22,21 @@ const unsigned errUSBClaimInterface = 5; /**< */
 const unsigned errUSBWrite = 6; /**< */
 const unsigned errUSBRead = 7; /**< */
 const unsigned errUSBIsClose = 8; /**< */
+const unsigned errUSBTimeout = 9;
 
 /**
  * @brief Printer errors
  */
-const unsigned errPrinterUndefineFeedControl = 9; /**< */
-const unsigned errPrinterUndefineCashDrawerPin = 10; /**< */
-const unsigned errPrinterUndefineAlign = 11; /**< */
-const unsigned errPrinterUndefineFont = 12; /**< */
-const unsigned errPrinterUndefineType = 13; /**< */
+const unsigned errPrinterUndefineFeedControl = 10; /**< */
+const unsigned errPrinterUndefineCashDrawerPin = 11; /**< */
+const unsigned errPrinterUndefineAlign = 12; /**< */
+const unsigned errPrinterUndefineFont = 13; /**< */
+const unsigned errPrinterUndefineType = 14; /**< */
 
-const unsigned errBarcodeSize = 14;
-const unsigned errBarcodeType = 15;
-const unsigned errBarcodeFont = 16;
-const unsigned errBarcodeTextPos = 17;
+const unsigned errBarcodeSize = 15;
+const unsigned errBarcodeType = 16;
+const unsigned errBarcodeFont = 17;
+const unsigned errBarcodeTextPos = 18;
 
 /**
  * @brief Error codes information.

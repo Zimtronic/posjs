@@ -121,11 +121,6 @@ unsigned LinuxUSB::read(unsigned char *buffer, unsigned &bufferSize,
     }
 }
 
-#include <stdio.h>
-#include <string.h>
-
-#define snprintf printf
-
 unsigned LinuxUSB::write(unsigned char *buffer, unsigned &bufferSize,
                          unsigned timeOut)
 {
@@ -146,11 +141,6 @@ unsigned LinuxUSB::write(unsigned char *buffer, unsigned &bufferSize,
             bufferSize = result;
 
             cout << "usb_bulk_write: " << result << " bytes written" << endl;
-
-            for (int i = 0; i < result; ++i) {
-                printf("%3x ", buffer[i]);
-            }
-            printf("\n");
 
             usb_release_interface(this->handle, this->interface);
         }

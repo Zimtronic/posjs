@@ -58,18 +58,30 @@ public:
     Q_INVOKABLE unsigned cutPaper(bool fullCut);
 
     /**
-     * Possible values ​​for pin parameter: 2, 5
+     * @param pin
+     * 2, 5
      *
      * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned sendPulseToCashDrawer(unsigned pin);
 
     /**
-     * Possible values ​​for align parameter: 0->center, 1->right, 2->left
-     * Possible values ​​for font parameter: 0->A, 1->B
-     * Possible values ​​for type parameter: 0->B, 1->U, 2->U2, 3->BU, 4->BU2, 5->Normal
-     * Possible values ​​for width parameter: 1->Normal width, 2->Double width
-     * Possible values ​​for height parameter: 1->Normal heigth, 2->Double heigth
+     * Possible values
+     *
+     * @param align
+     * 0->center, 1->right, 2->left
+     *
+     * @param font
+     * 0->A, 1->B
+     *
+     * @param type
+     * 0->B, 1->U, 2->U2, 3->BU, 4->BU2, 5->Normal
+     *
+     * @param width
+     * 1->Normal width, 2->Double width
+     *
+     * @param height
+     * 1->Normal heigth, 2->Double heigth
      *
      * @see ITicketPrinter
      */
@@ -78,14 +90,16 @@ public:
                                            unsigned height);
 
     /**
-     * Possible values ​​for crl parameter: 0->LF, 1->FF, 2->CR, 3->HT, 4->VT
+     * @param crl
+     * 0->LF, 1->FF, 2->CR, 3->HT, 4->VT
      *
      * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned feedControl(unsigned crl);
 
     /**
-     * Possible values ​​for sizeScale parameter: 0 <= sizeScale <= 10
+     * @param sizeScale
+     * 0 <= sizeScale <= 10
      *
      * @see ITicketPrinter
      */
@@ -126,11 +140,24 @@ public:
      * 1 = Above barcode.
      * 2 = Below barcode.
      * 3 = Both above and below barcode.
+     *
+     * @see ITicketPrinter
      */
     Q_INVOKABLE unsigned printBarcode(QString code, unsigned type,
                                       unsigned width, unsigned height,
                                       unsigned pos, unsigned font);
 
+    /**
+     * @brief Return error codes information.
+     *
+     * @param errCorrect
+     * 48 <= errCorrect <= 51
+     *
+     * @param moduleSize
+     * 1 <= moduleSize <= 16
+     *
+     * @see ITicketPrinter
+     */
     Q_INVOKABLE unsigned printQRCode(QString code, unsigned errCorrect,
                                      unsigned moduleSize);
 

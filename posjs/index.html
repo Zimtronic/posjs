@@ -1,27 +1,36 @@
 <html>
  <head>
   <script type="text/javascript">
-	  
+
+    BarcodeScanner.packetRead.connect(onBarcodeArrived)
+    MagneticScanner.packetRead.connect(onBarcodeArrived)
+
+    function onBarcodeArrived(packet)
+    {
+        alert(packet);
+        //form1.entrada.value = packet;
+    }
+
     function myfunction(text)
     {
-        ESCPOSPrinter.init();
+        //ESCPOSPrinter.init();
         //ESCPOSPrinter.setTextProperties(0,0,0,2,2);
         //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printRawText("Rene ....Probando");
+        //ESCPOSPrinter.printRawText("Amado para q vea!!!!!");
         //ESCPOSPrinter.setTextProperties(0,0,0,1,1);
         //ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.printRawText("_____________________");
         //ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.printRawText("Tony ....Probando");
-        ESCPOSPrinter.feedControl(0);
-        ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/uci.jpg.jpeg", 0, 5);
-        ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/uci.jpg.jpeg", 0, 5);
+        //ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.cutPaper(true);
-        ESCPOSPrinter.printBarcode("123TONY", 69, 2, 50, 0, 1);
-        ESCPOSPrinter.feedControl(0);
-        ESCPOSPrinter.printQRCode("hola mundo", 51, 8);
-        ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.printBarcode("aBCDEFGHIJK", 69, 2, 50, 0, 1);
+        //ESCPOSPrinter.feedControl(0);
+        //ESCPOSPrinter.printQRCode("HELLO", 51, 5);
+        //ESCPOSPrinter.feedControl(0);
     }
 
   </script>

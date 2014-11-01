@@ -19,7 +19,9 @@ INCLUDEPATH += /usr/include
 SOURCES += main.cpp \
     browser/mainwindow.cpp \
     drivers/linuxusb.cpp \
-    drivers/escposprinter.cpp
+    drivers/escposprinter.cpp \
+    drivers/linuxusbhid.cpp \
+    drivers/generichidscanner.cpp
 
 HEADERS += \
     browser/mainwindow.h \
@@ -28,7 +30,10 @@ HEADERS += \
     drivers/iticketprinter.h \
     drivers/escposprinter.h \
     drivers/escposcommands.h \
-    drivers/errors.h
+    drivers/errors.h \
+    drivers/linuxusbhid.h \
+    drivers/generichidscanner.h \
+    drivers/hidtable.h
 
 RESOURCES += \
     resource.qrc
