@@ -14,10 +14,12 @@ Posjs is a web based POS container and hardware bridge
 ### Build and run
 
 1. Open your command prompt and download the latest [posjs](https://github.com/Zimtronic/posjs).
+
  ```sh
   git clone https://github.com/Zimtronic/posjs.git
   cd posjs
   ```
+  
 2. Execute `qmake` to create Makefile. 
 3. Execute `make` to compile.
 4. Execute `sudo ./posjsbrowser` to run the posjs browser app.
