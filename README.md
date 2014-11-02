@@ -1,4 +1,4 @@
-# Posjs
+![Posjs](docs/posjs_logo.png)
 
 Posjs is a web based POS container and hardware bridge. We use the Qt WebKit bridge 
 mechanism to extend javascript environment with c++ objects. That objects are used 
