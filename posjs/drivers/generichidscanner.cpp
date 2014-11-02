@@ -37,7 +37,7 @@ void GenericHIDScanner::run()
         {
             hid->close();
             result = hid->open();
-            cout << "close open " <<result<< endl;
+//            cout << "close open " <<result<< endl;
         }
 
         do

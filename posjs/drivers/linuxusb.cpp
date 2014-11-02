@@ -35,16 +35,16 @@ unsigned LinuxUSB::open()
 
     for (bus = usb_get_busses(); bus; bus = bus->next)
     {
-        cout << "Found bus: " << bus->dirname << endl;
+//        cout << "Found bus: " << bus->dirname << endl;
 
         for (dev = bus->devices; dev; dev = dev->next)
         {
-            cout << "Found device with idVendor: "<< dev->descriptor.idVendor
-                 << " and idProduct: "<< dev->descriptor.idProduct << endl;
+//            cout << "Found device with idVendor: "<< dev->descriptor.idVendor
+//                 << " and idProduct: "<< dev->descriptor.idProduct << endl;
 
             if ((dev->descriptor.idProduct == this->idProduct) && (dev->descriptor.idVendor == this->idVendor))
             {
-                cout << "Device found -> open "<< endl;
+//                cout << "Device found -> open "<< endl;
 
                 this->handle = usb_open(dev);
                 if (!this->handle)
@@ -54,7 +54,7 @@ unsigned LinuxUSB::open()
 
                 usb_detach_kernel_driver_np(this->handle, this->interface);
 
-                cout << "Set configuration" << endl;
+//                cout << "Set configuration" << endl;
 
                 if (usb_set_configuration(this->handle, this->configuration) < 0)
                 {
@@ -109,7 +109,7 @@ unsigned LinuxUSB::read(unsigned char *buffer, unsigned &bufferSize,
                 return errUSBRead;
             }
 
-            cout << "usb_bulk_read: " << result << "bytes read" << endl;
+//            cout << "usb_bulk_read: " << result << "bytes read" << endl;
 
             usb_release_interface(this->handle, this->interface);
         }
@@ -126,7 +126,8 @@ unsigned LinuxUSB::write(unsigned char *buffer, unsigned &bufferSize,
 {
     if(this->isOpen)
     {
-        cout << "usb_claim_interface" << endl;
+//        cout << "usb_claim_interface" << endl;
+
         if (usb_claim_interface(this->handle, this->interface) < 0)
         {
             return errUSBClaimInterface;
@@ -140,7 +141,7 @@ unsigned LinuxUSB::write(unsigned char *buffer, unsigned &bufferSize,
             }
             bufferSize = result;
 
-            cout << "usb_bulk_write: " << result << " bytes written" << endl;
+//            cout << "usb_bulk_write: " << result << " bytes written" << endl;
 
             usb_release_interface(this->handle, this->interface);
         }

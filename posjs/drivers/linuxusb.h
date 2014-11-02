@@ -6,10 +6,10 @@
 
    /**
     * @class LinuxUSB
-    * @brief @ITransport implementation.
+    * @brief ITransport implementation
     *
     * This class lets read and write data using USB interface,
-    * for this purpose used the libusb library.
+    * for this purpose used the libusb library
     *
     * @author tony
     * @date 18-10-2014
@@ -19,42 +19,44 @@ class LinuxUSB : public ITransport
 {
 public:
     /**
-     * @brief Class builder.
+     * @brief Class builder
      */
     LinuxUSB();
 
     /**
-     * @brief Class destroyer.
+     * @brief Class destroyer
      */
     ~LinuxUSB();
 
     /**
-     * @brief Initialize the libusb library, find busses and devices.
+     * @brief Initialize the libusb library, find busses and devices
      *
-     * @see ITransport
+     * @see ITransport.open
      */
     unsigned open();
 
     /**
-     * @brief Close usb interface and release the communication handler.
+     * @brief Close usb interface and release the communication handler
      *
-     * @see ITransport
+     * @see ITransport.close
      */
     unsigned close();
 
     /**
-     * @brief Read bytes from usb port.
+     * @brief Read bytes from usb port
      *
-     * @see ITransport
+     * @see ITransport.read
      */
-    unsigned read(unsigned char* buffer, unsigned &bufferSize, unsigned timeOut);
+    unsigned read(unsigned char* buffer, unsigned &bufferSize,
+                  unsigned timeOut);
 
     /**
-     * @brief Write bytes to usb port.
+     * @brief Write bytes to usb port
      *
-     * @see ITransport
+     * @see ITransport.write
      */
-    unsigned write(unsigned char* buffer, unsigned &bufferSize, unsigned timeOut);
+    unsigned write(unsigned char* buffer, unsigned &bufferSize,
+                   unsigned timeOut);
 
     unsigned getIdProduct() const;
     void setIdProduct(const unsigned &value);
@@ -75,16 +77,16 @@ public:
     void setConfiguration(const unsigned &value);
 
 protected:
-    unsigned idProduct; /**< */
-    unsigned idVendor; /**< */
-    unsigned interface; /**< */
-    unsigned configuration; /**< */
-    int inEndPoint; /**< */
-    int outEndPoint; /**< */
+    unsigned idProduct; /**< USB product identification */
+    unsigned idVendor; /**< USB vendor identification */
+    unsigned interface; /**< USB interface number */
+    unsigned configuration; /**< USB configuration number */
+    int inEndPoint; /**< USB read endpoint */
+    int outEndPoint; /**< USB write endpoint */
 
-    struct usb_dev_handle *handle; /**< Connection handler. */
+    struct usb_dev_handle *handle; /**< Connection handler */
 
-    bool isOpen; /**< Connection state. */
+    bool isOpen; /**< Connection state */
 };
 
 #endif // LINUXUSB_H

@@ -1,8 +1,8 @@
 #include <QtWidgets>
 #include <QtNetwork>
 #include <QtWebKitWidgets>
-#include "mainwindow.h"
 
+#include "mainwindow.h"
 #include "drivers/escposprinter.h"
 #include "drivers/linuxusb.h"
 #include "drivers/generichidscanner.h"
@@ -59,8 +59,6 @@ MainWindow::MainWindow(const QUrl& url)
 MainWindow::~MainWindow()
 {
     delete view;
-//    delete transport;
-//    delete printer;
 }
 
 void MainWindow::viewSource()

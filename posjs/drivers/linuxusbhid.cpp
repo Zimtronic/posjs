@@ -45,7 +45,9 @@ unsigned LinuxUSBHid::open()
             if (this->idProduct > 0 && dev->descriptor.idProduct != this->idProduct) continue;
             if (!dev->config) continue;
             if (dev->config->bNumInterfaces < 1) continue;
-            printf("device: vid=%04X, pic=%04X, with %d iface\n", dev->descriptor.idVendor, dev->descriptor.idProduct, dev->config->bNumInterfaces);
+
+//            printf("device: vid=%04X, pic=%04X, with %d iface\n", dev->descriptor.idVendor, dev->descriptor.idProduct, dev->config->bNumInterfaces);
+
             iface = dev->config->interface;
             this->handle = NULL;
             claimed = 0;
@@ -53,7 +55,9 @@ unsigned LinuxUSBHid::open()
             {
                 desc = iface->altsetting;
                 if (!desc) continue;
-                printf("  type %d, %d, %d\n", desc->bInterfaceClass, desc->bInterfaceSubClass, desc->bInterfaceProtocol);
+
+//                printf("  type %d, %d, %d\n", desc->bInterfaceClass, desc->bInterfaceSubClass, desc->bInterfaceProtocol);
+
                 if (desc->bInterfaceClass != 3) continue;
                 ep = desc->endpoint;
                 this->inEndPoint = 0;
@@ -63,12 +67,14 @@ unsigned LinuxUSBHid::open()
                     if (ep->bEndpointAddress & 0x80)
                     {
                         if (!this->inEndPoint) this->inEndPoint = ep->bEndpointAddress & 0x7F;
-                        printf("    IN endpoint %d\n", this->inEndPoint);
+
+//                        printf("    IN endpoint %d\n", this->inEndPoint);
                     }
                     else
                     {
                         if (!this->outEndPoint) this->outEndPoint = ep->bEndpointAddress;
-                        printf("    OUT endpoint %d\n", this->outEndPoint);
+
+//                        printf("    OUT endpoint %d\n", this->outEndPoint);
                     }
                 }
                 if (!this->inEndPoint) continue;
@@ -77,27 +83,28 @@ unsigned LinuxUSBHid::open()
                     this->handle = usb_open(dev);
                     if (!this->handle)
                     {
-                        printf("  unable to open device\n");
+//                        printf("  unable to open device\n");
                         break;
                     }
                 }
-                printf("  hid interface (generic)\n");
+//                printf("  hid interface (generic)\n");
                 if (usb_get_driver_np(this->handle, i, (char *)buf, sizeof(buf)) >= 0)
                 {
-                    printf("  in use by driver \"%s\"\n", buf);
+//                    printf("  in use by driver \"%s\"\n", buf);
                     if (usb_detach_kernel_driver_np(this->handle, i) < 0)
                     {
-                        printf("  unable to detach from kernel\n");
+//                        printf("  unable to detach from kernel\n");
                         continue;
                     }
                 }
                 if (usb_claim_interface(this->handle, i) < 0)
                 {
-                    printf("  unable claim interface %d\n", i);
+//                    printf("  unable claim interface %d\n", i);
                     continue;
                 }
                 len = usb_control_msg(this->handle, 0x81, 6, 0x2200, i, (char *)buf, sizeof(buf), 250);
-                printf("  descriptor, len=%d\n", len);
+
+//                printf("  descriptor, len=%d\n", len);
 
                 if (len < 2)
                 {
@@ -145,39 +152,3 @@ unsigned LinuxUSBHid::read(unsigned char *buffer, unsigned &bufferSize,
         return errUSBIsClose;
     }
 }
-
-void LinuxUSBHid::test()
-{
-    //    this->idProduct = 0x1010;
-    //    this->idVendor = 0x05fe;
-
-    this->idProduct = 0x0001;
-    this->idVendor = 0x0801;
-
-    usb_set_debug(5);
-
-    this->open();
-
-    unsigned bufferSize;
-    unsigned char buf[64];
-    int result;
-
-    if(this->isOpen)
-    {
-        cout << "isOpen.......OK OK"<< endl;
-        while (1)
-        {
-            bufferSize = 8;
-            result = this->read(buf, bufferSize, 228);
-            if(result == OK)
-            {
-                for (int i = 0; i<bufferSize; i++)
-                {
-                    cout<<hex<<(int)buf[i]<< " ";
-                }
-                printf("\n");
-            }
-        }
-    }
-}
-

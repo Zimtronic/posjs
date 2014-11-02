@@ -1,11 +1,6 @@
 #include <QtWidgets>
 #include "browser/mainwindow.h"
 
-#include "drivers/hidtable.h"
-
-using namespace std;
-#include <iostream>
-
 int main(int argc, char * argv[])
 {
     QApplication app(argc, argv);

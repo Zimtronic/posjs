@@ -381,7 +381,8 @@ unsigned ESCPOSPrinter::printBarcode(QString code, unsigned type,
     return result;
 }
 
-unsigned ESCPOSPrinter::printQRCode(QString code, unsigned errCorrect, unsigned moduleSize)
+unsigned ESCPOSPrinter::printQRCode(QString code, unsigned errCorrect,
+                                    unsigned moduleSize)
 {
     unsigned index = 0;
     unsigned char cmd[32];

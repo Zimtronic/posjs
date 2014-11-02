@@ -109,30 +109,6 @@ static const char hidTable[][3] =
 "..", //0x65	Keyboard Application
 "..", //0x66	Keyboard Power
 "..", //0x67	Keypad =
-"..", //0x68	Keyboard F13
-"..", //0x69	Keyboard F14
-"..", //0x6A	Keyboard F15
-"..", //0x6B	Keyboard F16
-"..", //0x6C	Keyboard F17
-"..", //0x6D	Keyboard F18
-"..", //0x6E	Keyboard F19
-"..", //0x6F	Keyboard F20
-"..", //0x70	Keyboard F21
-"..", //0x71	Keyboard F22
-"..", //0x72	Keyboard F23
-"..", //0x73	Keyboard F24
-"..", //0x74	Keyboard Execute
-"..", //0x75	Keyboard Help
-"..", //0x76	Keyboard Menu
-"..", //0x77	Keyboard Select
-"..", //0x78	Keyboard Stop
-"..", //0x79	Keyboard Again
-"..", //0x7A	Keyboard Undo
-"..", //0x7B	Keyboard Cut
-"..", //0x7C	Keyboard Copy
-"..", //0x7D	Keyboard Paste
-"..", //0x7E	Keyboard Find
-"..", //0x7F	Keyboard Mute
 };
 
 #endif // HIDTABLE_H

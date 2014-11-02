@@ -3,20 +3,20 @@
 
 #include <QtWidgets>
 
+/**
+ * @class MainWindow
+ * @brief Posjs visual browser.
+ *
+ * @author tony
+ * @date 18-10-2014
+ */
+
 class QWebView;
 class QLineEdit;
 
 class ITicketPrinter;
 class ITransport;
 class GenericHIDScanner;
-
-/**
- * @class MainWindow
- * @brief
- *
- * @author tony
- * @date 18-10-2014
- */
 
 class MainWindow : public QMainWindow
 {
@@ -43,6 +43,7 @@ private:
     QWebView *view;
     QLineEdit *locationEdit;
     int progress;
+
     ITicketPrinter *printer;
     ITransport * transport;
     GenericHIDScanner *hidBarcode;
