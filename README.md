@@ -1,7 +1,8 @@
 # Posjs
-=====
 
-Posjs is a web based POS container and hardware bridge
+Posjs is a web based POS container and hardware bridge. We use the Qt WebKit bridge 
+mechanism to extend javascript environment with c++ objects. That objects are used 
+to access hardware-specific features like printing and scan text codes with HID USB devices.
 
 ## Building
 
@@ -22,9 +23,9 @@ Posjs is a web based POS container and hardware bridge
   
 2. Execute `qmake` to create Makefile. 
 3. Execute `make` to compile.
-4. Execute `sudo ./posjsbrowser` to run the posjs browser app.
+4. Execute `sudo ./posjsbrowser` to run the posjs browser app. Don't forget to prefix with `sudo`. 
 
-## Using to develop a javascript app
+## Developing a javascript app
 
 * [Using printers](docs/printer.md)
 * [Using HSB HID scanners](docs/hid.md)

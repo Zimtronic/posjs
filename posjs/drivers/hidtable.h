@@ -1,7 +1,14 @@
 #ifndef HIDTABLE_H
 #define HIDTABLE_H
 
-//http://www.freebsddiary.org/APC/usb_hid_usages
+    /**
+     * @brief Table to convert hid commands to ascii
+     *
+     * We obtain this information online(http://www.freebsddiary.org/APC/usb_hid_usages)
+     *
+     * @author tony
+     * @date 31-10-2014
+     */
 
 static const char hidTable[][3] =
 {
