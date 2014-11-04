@@ -27,17 +27,12 @@ public:
     virtual ITransport *getTransport() const;
     virtual void setTransport(ITransport *value);
 
-    unsigned short getIdProduct() const;
     void setIdProduct(unsigned short value);
-
-    unsigned short getIdVendor() const;
     void setIdVendor(unsigned short value);
 
 protected:
     ITransport * transport; /**< Pointer to generic transport */
     QString name; /**< Device name */
-    unsigned short idProduct;
-    unsigned short idVendor;
 };
 
 #endif // DEVICE_H
