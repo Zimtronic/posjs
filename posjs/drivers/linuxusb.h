@@ -33,7 +33,7 @@ public:
      *
      * @see ITransport.open
      */
-    unsigned open();
+    unsigned open(unsigned &deviceId);
 
     /**
      * @brief Close usb interface and release the communication handler
@@ -64,23 +64,11 @@ public:
     unsigned getIdVendor() const;
     void setIdVendor(const unsigned &value);
 
-    unsigned getInterface() const;
-    void setInterface(const unsigned &value);
-
-    unsigned getInEndPoint() const;
-    void setInEndPoint(const unsigned &value);
-
-    unsigned getOutEndPoint() const;
-    void setOutEndPoint(const unsigned &value);
-
-    unsigned getConfiguration() const;
-    void setConfiguration(const unsigned &value);
-
 protected:
     unsigned idProduct; /**< USB product identification */
     unsigned idVendor; /**< USB vendor identification */
     unsigned interface; /**< USB interface number */
-    unsigned configuration; /**< USB configuration number */
+
     int inEndPoint; /**< USB read endpoint */
     int outEndPoint; /**< USB write endpoint */
 

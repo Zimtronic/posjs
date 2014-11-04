@@ -6,13 +6,22 @@ using namespace std;
 
 LinuxUSB::LinuxUSB()
 {
+    //printer
     this->idProduct = 0x0e15;
     this->idVendor = 0x04b8;
     this->interface = 0;
-    this->configuration = 1;
     this->inEndPoint = 0x82;
     this->outEndPoint = 0x01;
+
     this->isOpen = false;
+
+    //Barcode scanner
+    //    this->idProduct = 0x1010;
+    //    this->idVendor = 0x05fe;
+
+    //Magnetic card scanner
+    //    this->idProduct = 0x0001;
+    //    this->idVendor = 0x0801;
 }
 
 LinuxUSB::~LinuxUSB()
@@ -21,13 +30,20 @@ LinuxUSB::~LinuxUSB()
         close();
 }
 
-unsigned LinuxUSB::open()
+unsigned LinuxUSB::open(unsigned &deviceId)
 {
+    cout << "Entrando al open" << endl;
+
     this->isOpen = false;
     bool foundDevice = false;
 
     struct usb_bus *bus;
     struct usb_device *dev;
+    struct usb_interface *iface;
+    struct usb_interface_descriptor *desc;
+    struct usb_endpoint_descriptor *ep;
+    uint8_t buf[1024];
+    int i, n, len, claimed;
 
     usb_init();
     usb_find_busses();
@@ -35,38 +51,107 @@ unsigned LinuxUSB::open()
 
     for (bus = usb_get_busses(); bus; bus = bus->next)
     {
-//        cout << "Found bus: " << bus->dirname << endl;
-
         for (dev = bus->devices; dev; dev = dev->next)
         {
-//            cout << "Found device with idVendor: "<< dev->descriptor.idVendor
-//                 << " and idProduct: "<< dev->descriptor.idProduct << endl;
+            if (this->idVendor > 0 && dev->descriptor.idVendor != this->idVendor) continue;
+            if (this->idProduct > 0 && dev->descriptor.idProduct != this->idProduct) continue;
+            if (!dev->config) continue;
+            if (dev->config->bNumInterfaces < 1) continue;
 
-            if ((dev->descriptor.idProduct == this->idProduct) && (dev->descriptor.idVendor == this->idVendor))
+            //            printf("device: vid=%04X, pic=%04X, with %d iface\n", dev->descriptor.idVendor, dev->descriptor.idProduct, dev->config->bNumInterfaces);
+
+            iface = dev->config->interface;
+            this->handle = NULL;
+            claimed = 0;
+            for (i=0; i<dev->config->bNumInterfaces && iface; i++, iface++)
             {
-//                cout << "Device found -> open "<< endl;
+                desc = iface->altsetting;
+                if (!desc) continue;
 
-                this->handle = usb_open(dev);
+                //                printf("  type %d, %d, %d\n", desc->bInterfaceClass, desc->bInterfaceSubClass, desc->bInterfaceProtocol);
+                cout << "type "<<  (int)desc->bInterfaceClass << " "
+                     << (int)desc->bInterfaceSubClass << " " << (int)desc->bInterfaceProtocol << endl;
+
+                if (desc->bInterfaceClass != 3 && desc->bInterfaceClass != 7)
+                {
+                    continue;
+                }
+                ep = desc->endpoint;
+                this->inEndPoint = 0;
+                this->outEndPoint = 0;
+                for (n = 0; n < desc->bNumEndpoints; n++, ep++)
+                {
+                    if (ep->bEndpointAddress & 0x80)
+                    {
+                        if (!this->inEndPoint)
+                            this->inEndPoint = ep->bEndpointAddress & 0x7F;
+
+                        cout <<"IN endpoint " << this->inEndPoint;
+                    }
+                    else
+                    {
+                        if (!this->outEndPoint)
+                            this->outEndPoint = ep->bEndpointAddress;
+
+                        cout <<"OUT endpoint " << this->outEndPoint;
+                    }
+                }
+                if (!this->inEndPoint) continue;
                 if (!this->handle)
                 {
-                    return errUSBOpen;
+                    this->handle = usb_open(dev);
+                    if (!this->handle)
+                    {
+                        cout <<"unable to open device" << endl;
+                        break;
+                    }
                 }
 
-                usb_detach_kernel_driver_np(this->handle, this->interface);
-
-//                cout << "Set configuration" << endl;
-
-                if (usb_set_configuration(this->handle, this->configuration) < 0)
+                if (usb_get_driver_np(this->handle, i, (char *)buf, sizeof(buf)) >= 0)
                 {
-                    return errUSBConfig;
+                    cout << "in use by driver " << buf << endl;
+                    if (usb_detach_kernel_driver_np(this->handle, i) < 0)
+                    {
+                        cout << "unable to detach from kernel" << endl;
+                        continue;
+                    }
                 }
+                if (usb_claim_interface(this->handle, i) < 0)
+                {
+                    cout << "unable claim interface " << i << endl;
+                    continue;
+                }
+
+                if(desc->bInterfaceClass == 3)
+                {
+                    len = usb_control_msg(this->handle, 0x81, 6, 0x2200, i, (char *)buf, sizeof(buf), 250);
+
+                    cout <<"descriptor, len= "<< len << endl;
+
+                    if (len < 2)
+                    {
+                        usb_release_interface(this->handle, i);
+                        continue;
+                    }
+                    deviceId = 2;
+                }
+                else
+                {
+                    deviceId = 1;
+                }
+
                 foundDevice = true;
-                break;
+                claimed++;
+                this->interface = i;
+            }
+            if (this->handle && !claimed)
+            {
+                foundDevice = false;
+                usb_close(this->handle);
             }
         }
-        if(foundDevice)
-            break;
     }
+
     if(foundDevice)
     {
         this->isOpen = true;
@@ -76,6 +161,7 @@ unsigned LinuxUSB::open()
     {
         return errUSBDeviceNotFound;
     }
+
 }
 
 unsigned LinuxUSB::close()
@@ -83,6 +169,7 @@ unsigned LinuxUSB::close()
     int result = OK;
     if(this->isOpen)
     {
+        usb_release_interface(this->handle, this->interface);
         result = usb_close(this->handle);
     }
     this->isOpen = false;
@@ -97,22 +184,14 @@ unsigned LinuxUSB::read(unsigned char *buffer, unsigned &bufferSize,
 {
     if(this->isOpen)
     {
-        if (usb_claim_interface(this->handle, this->interface) < 0)
+        int result = usb_interrupt_read(this->handle, this->inEndPoint, (char*)buffer, bufferSize, timeOut);
+        if (result < 0)
         {
-            return errUSBClaimInterface;
+            if(result == -110)
+                return errUSBTimeout;
+            return errUSBRead;
         }
-        else
-        {
-            int result = usb_bulk_read(this->handle, this->inEndPoint, (char*)buffer, bufferSize, timeOut);
-            if (result < 0)
-            {
-                return errUSBRead;
-            }
-
-//            cout << "usb_bulk_read: " << result << "bytes read" << endl;
-
-            usb_release_interface(this->handle, this->interface);
-        }
+        bufferSize = result;
         return OK;
     }
     else
@@ -126,25 +205,13 @@ unsigned LinuxUSB::write(unsigned char *buffer, unsigned &bufferSize,
 {
     if(this->isOpen)
     {
-//        cout << "usb_claim_interface" << endl;
-
-        if (usb_claim_interface(this->handle, this->interface) < 0)
+        int result = usb_bulk_write(this->handle, this->outEndPoint, (const char*)buffer, bufferSize, timeOut);
+        if (result < 0)
         {
-            return errUSBClaimInterface;
+            return errUSBWrite;
         }
-        else
-        {
-            int result = usb_bulk_write(this->handle, this->outEndPoint, (const char*)buffer, bufferSize, timeOut);
-            if (result < 0)
-            {
-                return errUSBWrite;
-            }
-            bufferSize = result;
+        bufferSize = result;
 
-//            cout << "usb_bulk_write: " << result << " bytes written" << endl;
-
-            usb_release_interface(this->handle, this->interface);
-        }
         return OK;
     }
     else
@@ -160,6 +227,7 @@ unsigned LinuxUSB::getIdProduct() const
 
 void LinuxUSB::setIdProduct(const unsigned &value)
 {
+    cout << "setIdProduct" << endl;
     idProduct = value;
 }
 
@@ -170,46 +238,6 @@ unsigned LinuxUSB::getIdVendor() const
 
 void LinuxUSB::setIdVendor(const unsigned &value)
 {
+    cout << "setIdVendor" << endl;
     idVendor = value;
 }
-
-unsigned LinuxUSB::getInterface() const
-{
-    return interface;
-}
-
-void LinuxUSB::setInterface(const unsigned &value)
-{
-    interface = value;
-}
-
-unsigned LinuxUSB::getInEndPoint() const
-{
-    return inEndPoint;
-}
-
-void LinuxUSB::setInEndPoint(const unsigned &value)
-{
-    inEndPoint = value;
-}
-
-unsigned LinuxUSB::getOutEndPoint() const
-{
-    return outEndPoint;
-}
-
-void LinuxUSB::setOutEndPoint(const unsigned &value)
-{
-    outEndPoint = value;
-}
-
-unsigned LinuxUSB::getConfiguration() const
-{
-    return configuration;
-}
-
-void LinuxUSB::setConfiguration(const unsigned &value)
-{
-    configuration = value;
-}
-

@@ -20,8 +20,8 @@ SOURCES += main.cpp \
     browser/mainwindow.cpp \
     drivers/linuxusb.cpp \
     drivers/escposprinter.cpp \
-    drivers/linuxusbhid.cpp \
-    drivers/generichidscanner.cpp
+    drivers/generichidscanner.cpp \
+    drivers/device.cpp
 
 HEADERS += \
     browser/mainwindow.h \
@@ -31,9 +31,9 @@ HEADERS += \
     drivers/escposprinter.h \
     drivers/escposcommands.h \
     drivers/errors.h \
-    drivers/linuxusbhid.h \
     drivers/generichidscanner.h \
-    drivers/hidtable.h
+    drivers/hidtable.h \
+    drivers/device.h
 
 RESOURCES += \
     resource.qrc

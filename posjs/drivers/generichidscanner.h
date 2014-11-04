@@ -3,7 +3,8 @@
 
 #include <QThread>
 
-#include "linuxusbhid.h"
+#include "device.h"
+#include "linuxusb.h"
 
     /**
      * @class GenericHIDScanner
@@ -16,7 +17,7 @@
      * @date 28-10-2014
      */
 
-class GenericHIDScanner : public QThread
+class GenericHIDScanner: public QThread , public Device
 {
     Q_OBJECT
 
@@ -28,24 +29,11 @@ public:
 
     void run();
 
-    /**
-     * @brief Set USB product identification
-     */
-    Q_INVOKABLE void setIdProduct(const unsigned &value);
-
-    /**
-     * @brief Set USB vendor identification
-     */
-    Q_INVOKABLE void setIdVendor(const unsigned &value);
-
 signals:
     /**
      * @brief This signal is emited when HID packet arrived
      */
     void packetRead(QString packet);
-
-private:
-    LinuxUSBHid * hid; /**<Linux USB HID transport pointer */
 };
 
 #endif // GENERICHIDSCANNER_H

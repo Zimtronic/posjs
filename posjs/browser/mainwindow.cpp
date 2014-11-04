@@ -3,9 +3,13 @@
 #include <QtWebKitWidgets>
 
 #include "mainwindow.h"
+#include "drivers/device.h"
 #include "drivers/escposprinter.h"
 #include "drivers/linuxusb.h"
 #include "drivers/generichidscanner.h"
+
+using namespace std;
+#include <iostream>
 
 MainWindow::MainWindow(const QUrl& url)
 {
@@ -39,21 +43,10 @@ MainWindow::MainWindow(const QUrl& url)
     setCentralWidget(view);
     setUnifiedTitleAndToolBarOnMac(true);
 
-    printer = new ESCPOSPrinter();
-    transport = new LinuxUSB();
-    printer->setTransport(transport);
-
-    hidBarcode = new GenericHIDScanner();
-    hidBarcode->start();
-
-    hidMagnetic = new GenericHIDScanner();
-    hidMagnetic->setIdProduct(0x0001);
-    hidMagnetic->setIdVendor(0x0801);
-    hidMagnetic->start();
+    createDevices();
 
     QObject::connect(view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()),
                          this, SLOT(addJSObject()));
-
 }
 
 MainWindow::~MainWindow()
@@ -79,6 +72,36 @@ void MainWindow::slotSourceDownloaded()
     reply->deleteLater();
 }
 
+void MainWindow::createDevices()
+{
+    //      supported devices
+
+    //    ESCPOSPrinter 0E15 04B8
+    //    BarcodeScanner 1010 05FE
+    //    MagneticScanner 0001 0801
+
+    Device * device;
+    device = new ESCPOSPrinter();
+    device->setName("ESCPOSPrinter");
+    device->setIdProduct(0x0e15);
+    device->setIdVendor(0x04b8);
+    devices.append(device);
+
+    device = new GenericHIDScanner();
+    device->setName("BarcodeScanner");
+    device->setIdProduct(0x1010);
+    device->setIdVendor(0x05FE);
+    ((GenericHIDScanner*)device)->start();
+    devices.append(device);
+
+    device = new GenericHIDScanner();
+    device->setName("MagneticScanner");
+    device->setIdProduct(0x0001);
+    device->setIdVendor(0x0801);
+    ((GenericHIDScanner*)device)->start();
+    devices.append(device);
+}
+
 void MainWindow::adjustLocation()
 {
     locationEdit->setText(view->url().toString());
@@ -87,7 +110,7 @@ void MainWindow::adjustLocation()
 void MainWindow::changeLocation()
 {
     QUrl url = QUrl::fromUserInput(locationEdit->text());
-    view->load(url);
+    view->setUrl(url);
     view->setFocus();
 }
 
@@ -114,7 +137,17 @@ void MainWindow::finishLoading(bool)
 void MainWindow::addJSObject()
 {
     QWebFrame *frame = view->page()->mainFrame();
-    frame->addToJavaScriptWindowObject("ESCPOSPrinter", (ESCPOSPrinter*)printer);
-    frame->addToJavaScriptWindowObject("BarcodeScanner", hidBarcode);
-    frame->addToJavaScriptWindowObject("MagneticScanner", hidMagnetic);
+
+    ESCPOSPrinter* printer;
+    GenericHIDScanner* hid;
+
+    for (int i = 0; i < devices.size(); ++i)
+    {
+        printer = dynamic_cast<ESCPOSPrinter*>(devices.at(i));
+        hid = dynamic_cast<GenericHIDScanner*>(devices.at(i));
+        if(printer)
+            frame->addToJavaScriptWindowObject(devices.at(i)->getName(), printer);
+        else if(hid)
+            frame->addToJavaScriptWindowObject(devices.at(i)->getName(), hid);
+    }
 }

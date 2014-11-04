@@ -9,6 +9,7 @@
 #include <QRgb>
 
 #include "iticketprinter.h"
+#include "device.h"
 #include "errors.h"
 
    /**
@@ -24,10 +25,9 @@
 
 class BitmapData;
 
-class ESCPOSPrinter : public QObject, public ITicketPrinter
+class ESCPOSPrinter : public QObject, public Device, public ITicketPrinter
 {
     Q_OBJECT
-
 public:
     /**
      * @brief Class builder

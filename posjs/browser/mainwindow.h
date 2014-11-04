@@ -14,9 +14,7 @@
 class QWebView;
 class QLineEdit;
 
-class ITicketPrinter;
-class ITransport;
-class GenericHIDScanner;
+class Device;
 
 class MainWindow : public QMainWindow
 {
@@ -44,10 +42,9 @@ private:
     QLineEdit *locationEdit;
     int progress;
 
-    ITicketPrinter *printer;
-    ITransport * transport;
-    GenericHIDScanner *hidBarcode;
-    GenericHIDScanner *hidMagnetic;
+    QList<Device *> devices;
+
+    void createDevices();
 };
 
 #endif // MAINWINDOW_H

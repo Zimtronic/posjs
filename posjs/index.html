@@ -2,35 +2,38 @@
  <head>
   <script type="text/javascript">
 
+    count = 0;
+
     BarcodeScanner.packetRead.connect(onPacketArrived)
     MagneticScanner.packetRead.connect(onPacketArrived)
 
     function onPacketArrived(packet)
     {
-        alert(packet);
+        count = count+1;
+        alert(packet+" "+count);
         //form1.entrada.value = packet;
     }
 
     function myfunction(text)
     {
-        //ESCPOSPrinter.init();
-        //ESCPOSPrinter.setTextProperties(0,0,0,2,2);
-        //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printRawText("Amado para q vea!!!!!");
-        //ESCPOSPrinter.setTextProperties(0,0,0,1,1);
-        //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printRawText("_____________________");
-        //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printRawText("Tony ....Probando");
-        //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/uci.jpg.jpeg", 0, 5);
-        //ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.init();
+        ESCPOSPrinter.setTextProperties(0,0,4,2,2);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("ZIMTRONIC STORE");
+        ESCPOSPrinter.setTextProperties(0,0,0,1,1);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("_____________________");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Tony ....Probando");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printImage("/media/tony/1375-3565/tony/ocio/pictures/uci.jpg.jpeg", 0, 5);
+        ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.feedControl(0);
         //ESCPOSPrinter.cutPaper(true);
-        //ESCPOSPrinter.printBarcode("aBCDEFGHIJK", 69, 2, 50, 0, 1);
+        ESCPOSPrinter.printBarcode("BCDEFGHIJK", 69, 2, 50, 0, 1);
         //ESCPOSPrinter.feedControl(0);
-        //ESCPOSPrinter.printQRCode("HELLO", 51, 5);
-        //ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printQRCode("HELLO", 51, 5);
+        ESCPOSPrinter.feedControl(0);
     }
   </script>
  </head>

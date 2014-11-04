@@ -7,17 +7,7 @@ using namespace std;
 
 GenericHIDScanner::GenericHIDScanner()
 {
-    hid = new LinuxUSBHid();
-}
 
-void GenericHIDScanner::setIdProduct(const unsigned &value)
-{
-    hid->setIdProduct(value);
-}
-
-void GenericHIDScanner::setIdVendor(const unsigned &value)
-{
-    hid->setIdVendor(value);
 }
 
 void GenericHIDScanner::run()
@@ -26,6 +16,7 @@ void GenericHIDScanner::run()
     unsigned char buf[16], packet[256];
 
     unsigned result = errUSBIsClose;
+    unsigned id;
 
     while (1)
     {
@@ -35,14 +26,15 @@ void GenericHIDScanner::run()
 
         if(result != OK && result != errUSBTimeout)
         {
-            hid->close();
-            result = hid->open();
-//            cout << "close open " <<result<< endl;
+            cout << "close open " <<(int)transport<< endl;
+            transport->close();
+            result = transport->open(id);
+            cout << "close open " <<result<< endl;
         }
 
         do
         {
-            result = hid->read(buf, bufferSize, 100);
+            result = transport->read(buf, bufferSize, 100);
             if(result == OK)
             {
                 if(buf[2])
@@ -59,6 +51,9 @@ void GenericHIDScanner::run()
         }while(result == OK);
 
         if(packetIndex)
+        {
+            cout << "emiting packet "<< endl;
             emit packetRead(QString((const char*)packet));
+        }
     }
 }

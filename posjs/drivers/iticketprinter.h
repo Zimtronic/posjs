@@ -67,22 +67,6 @@ public:
      */
     virtual unsigned printQRCode(QString code, unsigned errCorrect,
                                  unsigned moduleSize) = 0;
-
-    ITransport *getTransport() const;
-    void setTransport(ITransport *value);
-
-protected:
-    ITransport * transport; /**< Pointer to generic transport */
 };
-
-inline ITransport *ITicketPrinter::getTransport() const
-{
-    return transport;
-}
-
-inline void ITicketPrinter::setTransport(ITransport *value)
-{
-    transport = value;
-}
 
 #endif // ITICKETPRINTER_H

@@ -7,8 +7,10 @@ to access hardware-specific features like printing and scan text codes with HID 
 ## Building
 
 ### Requirements
+
 * Linux based OS with 64-bit or 32-bit architecture. 
 * C++ toolchain.
+* libusb-0.1-4.
 * [Git](http://git-scm.com/).
 * [Qt5.3.0](http://qt-project.org/downloads).
 

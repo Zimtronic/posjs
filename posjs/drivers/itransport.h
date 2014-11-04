@@ -15,7 +15,7 @@ public:
     /**
      * @brief Open connection with device. Return an error code
      */
-    virtual unsigned open() = 0;
+    virtual unsigned open(unsigned &deviceId) = 0;
 
     /**
      * @brief Close connection. Return an error code

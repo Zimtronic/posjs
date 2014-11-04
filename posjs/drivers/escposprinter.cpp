@@ -15,7 +15,8 @@ ESCPOSPrinter::~ESCPOSPrinter()
 
 unsigned ESCPOSPrinter::init()
 {
-    unsigned result = transport->open();
+    unsigned id;
+    unsigned result = transport->open(id);
     if(result == OK)
     {
         unsigned len = INITLENGTH;
@@ -171,10 +172,10 @@ unsigned ESCPOSPrinter::setTextProperties(unsigned align, unsigned font,
     }
     else if(height == 2 && width == 2)
     {
-        result = transport->write(TXT_2WIDTH, len, this->timeout);
+        result = transport->write(TXT_NORMAL, len, this->timeout);
         if(result != OK)
             return result;
-        result = transport->write(TXT_2HEIGHT, len, this->timeout);
+        result = transport->write(TXT_DOUBLE, len, this->timeout);
     }
     else
     {
