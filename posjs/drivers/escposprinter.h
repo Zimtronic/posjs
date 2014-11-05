@@ -54,9 +54,10 @@ public:
 
 
     /**
+     *
      * @see ITicketPrinter.cutPaper
      */
-    Q_INVOKABLE unsigned cutPaper(bool fullCut);
+    Q_INVOKABLE unsigned cutPaper();
 
     /**
      * @param pin
@@ -106,7 +107,7 @@ public:
      * tab numbers from the left border of paper
      *
      * @param sizeScale
-     * 0 <= sizeScale <= 10
+     * 0 <= sizeScale <= 9
      *
      *
      * @see ITicketPrinter.printImage
@@ -156,7 +157,7 @@ public:
                                       unsigned pos, unsigned font);
 
     /**
-     * @brief Return error codes information
+     * @brief Print qrcode
      *
      * @param code
      * String to be encoded in the qrcode

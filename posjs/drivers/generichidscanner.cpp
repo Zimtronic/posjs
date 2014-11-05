@@ -20,10 +20,6 @@ void GenericHIDScanner::run()
 
     while (1)
     {
-        bufferSize = 8;
-        packetIndex = 0;
-        memset(packet, 0, 256);
-
         if(result != OK && result != errUSBTimeout)
         {
             cout << "close open " <<(int)transport<< endl;
@@ -31,6 +27,10 @@ void GenericHIDScanner::run()
             result = transport->open(id);
             cout << "close open " <<result<< endl;
         }
+
+        bufferSize = 8;
+        packetIndex = 0;
+        memset(packet, 0, 256);
 
         do
         {
@@ -52,8 +52,9 @@ void GenericHIDScanner::run()
 
         if(packetIndex)
         {
-            cout << "emiting packet "<< endl;
-            emit packetRead(QString((const char*)packet));
+            cout << (int)packet[packetIndex-1] << endl;
+            //if(packet[packetIndex-1] == '\r')
+                emit packetRead(QString((const char*)packet));
         }
     }
 }

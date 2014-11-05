@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>index.html</file>
+        <file>zimtronic-logo.png</file>
     </qresource>
 </RCC>

@@ -32,19 +32,18 @@ unsigned ESCPOSPrinter::printRawText(QString text)
     return result;
 }
 
-unsigned ESCPOSPrinter::cutPaper(bool fullCut)
+unsigned ESCPOSPrinter::cutPaper()
 {
     unsigned result = OK;
-    unsigned len = PAPERCUTLENGTH;
 
-    if(fullCut)
-    {
-        result = transport->write(PAPER_FULL_CUT, len, this->timeout);
-    }
-    else
-    {
-        result = transport->write(PAPER_PART_CUT, len, this->timeout);
-    }
+    unsigned index = 0;
+    unsigned char cmd[32];
+    cmd[index++] = 0x1D;
+    cmd[index++] = 'V';
+    cmd[index++] = 66;
+    cmd[index++] = 0;
+
+    result = transport->write(cmd, index, this->timeout);
     return result;
 }
 
@@ -216,6 +215,9 @@ unsigned ESCPOSPrinter::feedControl(unsigned crl)
 unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab,
                                    unsigned sizeScale)
 {
+    if(sizeScale > 9)
+        return errImageSize;
+
     BitmapData data = getBitmap(pathImage, sizeScale);
     QBitArray dots = data.Dots;
 
@@ -230,7 +232,7 @@ unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab,
 
     int offset = 0;
     unsigned cursor = 0;
-    unsigned char buffer[22000];
+    unsigned char buffer[25000];
 
     buffer[cursor++] = 0x1B;
     buffer[cursor++] = '@';
@@ -241,7 +243,7 @@ unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab,
 
     while (offset < data.Height)
     {
-        for (unsigned h = 0; h < rightTab; ++h)
+        for (unsigned int h = 0; h < rightTab; ++h)
         {
             buffer[cursor++] = 9;
         }
@@ -362,7 +364,7 @@ unsigned ESCPOSPrinter::printBarcode(QString code, unsigned type,
     //GS k
     cmd[index++] = 0x1D;
     cmd[index++] = 'k';
-    cmd[index++] = type; //m = barcode type 0-6
+    cmd[index++] = type; //m = barcode type
     cmd[index++] = code.length();
 
     unsigned result;

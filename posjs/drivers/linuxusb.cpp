@@ -185,7 +185,7 @@ unsigned LinuxUSB::read(unsigned char *buffer, unsigned &bufferSize,
     if(this->isOpen)
     {
         int result = usb_interrupt_read(this->handle, this->inEndPoint, (char*)buffer, bufferSize, timeOut);
-        if (result < 0)
+        if (result <= 0)
         {
             if(result == -110)
                 return errUSBTimeout;

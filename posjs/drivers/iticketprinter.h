@@ -28,9 +28,9 @@ public:
     virtual unsigned printRawText(QString text) = 0;
 
     /**
-     * @brief Cut full or partial paper
+     * @brief Cut paper
      */
-    virtual unsigned cutPaper(bool fullCut) = 0;
+    virtual unsigned cutPaper() = 0;
 
     /**
      * @brief Lets access to cash drawer pins

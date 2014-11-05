@@ -38,6 +38,8 @@ const unsigned errBarcodeType = 16;
 const unsigned errBarcodeFont = 17;
 const unsigned errBarcodeTextPos = 18;
 
+const unsigned errImageSize = 19;
+
 /**
  * @brief Error codes information.
  */
@@ -61,7 +63,8 @@ static const char *errorsString[] =
     "Error Barcode Size",
     "Error Barcode Type",
     "Error Barcode Font",
-    "Error Barcode Text Position"
+    "Error Barcode Text Position",
+    "Error Image out of size"
 };
 
 #endif // ERRORS_H

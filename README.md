@@ -46,7 +46,7 @@ See [using other devices section](docs/supporteddevices.md).
 
 The main idea of ​​this project is provide a platform with hardware access to developing your own POS application. 
 Initially we export three objects to the javascript context: `ESCPOSPrinter`, `BarcodeScanner` and `MagneticScanner` 
-(See [using other devices section](docs/supporteddevices.md) to change object names and add other devices). 
+(see [using other devices section](docs/supporteddevices.md) to change object names and add other devices). 
 Then you can use this objects into the javascript code. 
 
 * [Using printers](docs/printer.md)
