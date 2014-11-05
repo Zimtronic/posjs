@@ -2,12 +2,17 @@
  <head>
   <script type="text/javascript">
 
-    BarcodeScanner.packetRead.connect(onPacketArrived)
-    MagneticScanner.packetRead.connect(onPacketArrived)
+    BarcodeScanner.packetRead.connect(onBarcodePacketArrived)
+    MagneticScanner.packetRead.connect(onMagneticPacketArrived)
 
-    function onPacketArrived(packet)
+    function onBarcodePacketArrived(packet)
     {
-        alert(packet);
+        alert("Barcode: "+packet);
+    }
+
+    function onMagneticPacketArrived(packet)
+    {
+        alert("Magnetic: "+packet);
     }
 
     function test1()
