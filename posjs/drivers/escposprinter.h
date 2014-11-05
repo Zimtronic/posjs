@@ -48,10 +48,11 @@ public:
     Q_INVOKABLE unsigned init();
 
     /**
+     * @brief Function feedControl(0) should be called after this.
+     *
      * @see ITicketPrinter.printRawText
      */
     Q_INVOKABLE unsigned printRawText(QString text);
-
 
     /**
      *
@@ -107,7 +108,7 @@ public:
      * tab numbers from the left border of paper
      *
      * @param sizeScale
-     * 0 <= sizeScale <= 9
+     * 0 <= sizeScale <= 20
      *
      *
      * @see ITicketPrinter.printImage

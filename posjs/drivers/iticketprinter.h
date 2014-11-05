@@ -28,7 +28,7 @@ public:
     virtual unsigned printRawText(QString text) = 0;
 
     /**
-     * @brief Cut paper
+     * @brief Cut the paper
      */
     virtual unsigned cutPaper() = 0;
 
