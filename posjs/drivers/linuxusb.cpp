@@ -32,7 +32,7 @@ LinuxUSB::~LinuxUSB()
 
 unsigned LinuxUSB::open(unsigned &deviceId)
 {
-    cout << "Entrando al open" << endl;
+    cout << "LinuxUSB::open" << endl;
 
     this->isOpen = false;
     bool foundDevice = false;
@@ -58,8 +58,6 @@ unsigned LinuxUSB::open(unsigned &deviceId)
             if (!dev->config) continue;
             if (dev->config->bNumInterfaces < 1) continue;
 
-            //            printf("device: vid=%04X, pic=%04X, with %d iface\n", dev->descriptor.idVendor, dev->descriptor.idProduct, dev->config->bNumInterfaces);
-
             iface = dev->config->interface;
             this->handle = NULL;
             claimed = 0;
@@ -68,7 +66,6 @@ unsigned LinuxUSB::open(unsigned &deviceId)
                 desc = iface->altsetting;
                 if (!desc) continue;
 
-                //                printf("  type %d, %d, %d\n", desc->bInterfaceClass, desc->bInterfaceSubClass, desc->bInterfaceProtocol);
                 cout << "type "<<  (int)desc->bInterfaceClass << " "
                      << (int)desc->bInterfaceSubClass << " " << (int)desc->bInterfaceProtocol << endl;
 
@@ -227,7 +224,6 @@ unsigned LinuxUSB::getIdProduct() const
 
 void LinuxUSB::setIdProduct(const unsigned &value)
 {
-    cout << "setIdProduct" << endl;
     idProduct = value;
 }
 
@@ -238,6 +234,5 @@ unsigned LinuxUSB::getIdVendor() const
 
 void LinuxUSB::setIdVendor(const unsigned &value)
 {
-    cout << "setIdVendor" << endl;
     idVendor = value;
 }

@@ -375,12 +375,6 @@ unsigned ESCPOSPrinter::printBarcode(QString code, unsigned type,
     //Print Code
     unsigned codeSize = code.length();
     result = transport->write((unsigned char*)code.toStdString().c_str(), codeSize, this->timeout);
-    if(result != OK)
-        return result;
-
-    unsigned char zero[] = {0x0};
-    unsigned l = 1;
-    result = transport->write(zero, l, this->timeout);
     return result;
 }
 

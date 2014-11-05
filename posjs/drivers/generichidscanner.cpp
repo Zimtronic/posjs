@@ -22,7 +22,6 @@ void GenericHIDScanner::run()
     {
         if(result != OK && result != errUSBTimeout)
         {
-            cout << "close open " <<(int)transport<< endl;
             transport->close();
             result = transport->open(id);
             cout << "close open " <<result<< endl;
@@ -46,15 +45,12 @@ void GenericHIDScanner::run()
 
                     packet[packetIndex++] = hidTable[(int)buf[2]][ctrol];
                 }
-//                cout << packet[packetIndex-1] << endl;
             }
         }while(result == OK);
 
         if(packetIndex)
         {
-            cout << (int)packet[packetIndex-1] << endl;
-            //if(packet[packetIndex-1] == '\r')
-                emit packetRead(QString((const char*)packet));
+            emit packetRead(QString((const char*)packet));
         }
     }
 }
