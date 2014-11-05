@@ -29,6 +29,11 @@ public:
 
     void run();
 
+    /**
+     * @brief Return error codes information
+     */
+    Q_INVOKABLE QString getErrorString(unsigned errorCode);
+
 signals:
     /**
      * @brief This signal is emited when HID packet arrived

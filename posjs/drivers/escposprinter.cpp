@@ -453,7 +453,7 @@ void ESCPOSPrinter::setTimeout(const unsigned &value)
 
 QString ESCPOSPrinter::getErrorString(unsigned errorCode)
 {
-    if(errorCode > errPrinterUndefineType)
+    if(errorCode > errImageSize)
     {
         return QString("Undefine error code");
     }

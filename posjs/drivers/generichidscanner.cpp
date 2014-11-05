@@ -25,6 +25,7 @@ void GenericHIDScanner::run()
             transport->close();
             result = transport->open(id);
             cout << "close open " <<result<< endl;
+            usleep(5);
         }
 
         bufferSize = 8;
@@ -52,5 +53,17 @@ void GenericHIDScanner::run()
         {
             emit packetRead(QString((const char*)packet));
         }
+    }
+}
+
+QString GenericHIDScanner::getErrorString(unsigned errorCode)
+{
+    if(errorCode > errImageSize)
+    {
+        return QString("Undefine error code");
+    }
+    else
+    {
+        return QString(errorsString[errorCode]);
     }
 }

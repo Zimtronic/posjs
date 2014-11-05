@@ -51,3 +51,4 @@ Then you can use this objects into the javascript code.
 
 * [Using printers](docs/printer.md)
 * [Using HSB HID scanners](docs/hid.md)
+* [Javascript API](docs/javascriptapi.md)
