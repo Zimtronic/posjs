@@ -124,6 +124,54 @@
         ESCPOSPrinter.feedControl(0);
     }
 
+    function test7()
+    {
+        ESCPOSPrinter.init();
+        ESCPOSPrinter.printImage(":/zimtronic-pos.png", 1, 15);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.setTextProperties(0,0,4,1,2);
+        ESCPOSPrinter.printRawText("MANAGER -> RENE LOPEZ --STATION V");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.setTextProperties(0,0,4,1,1);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("5/11/2014   01:48 AM");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Product                      Price");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("----------------------------------");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Milk 65 Fl oz                 3.40");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Cookies                       5.00");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Subtotal                      8.40");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Tax 10%                       0.84");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Total                         9.24");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Cash tend                    10.00");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printRawText("Cash due                      0.76");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.setTextProperties(0,0,4,1,2);
+        ESCPOSPrinter.printRawText("                            THANKS");
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.printBarcode("ZIMTRONIC$%", 69, 2, 50, 2, 1);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.feedControl(0);
+        ESCPOSPrinter.cutPaper();
+    }
   </script>
  </head>
 <body>
@@ -145,6 +193,9 @@
 
       <input type="button" onclick="test6()"value="Print test #6.">
       <label>Print QRCode</label><BR>
+
+      <input type="button" onclick="test7()"value="Print test #7.">
+      <label>Print ticket example</label><BR>
     </form>
  </body>
 </html>

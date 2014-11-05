@@ -215,7 +215,7 @@ unsigned ESCPOSPrinter::feedControl(unsigned crl)
 unsigned ESCPOSPrinter::printImage(QString pathImage, unsigned rightTab,
                                    unsigned sizeScale)
 {
-    if(sizeScale > 9)
+    if(sizeScale > 20)
         return errImageSize;
 
     BitmapData data = getBitmap(pathImage, sizeScale);
