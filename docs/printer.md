@@ -1,5 +1,11 @@
 # Printer
 
+To use the printer in javascript you must call init() function in first place. 
+Below we use the `ESCPOSPrinter` object, that is the name of our printer object (see createDevices() 
+function in [mainwindow.cpp](../posjs/browser/mainwindow.cpp)). 
+
+See [index.html] (../posjs/index.html) for complete code.
+
 ### Example 1: Print "HELLO WORLD"
 
  ```js
