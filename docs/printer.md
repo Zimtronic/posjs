@@ -9,6 +9,8 @@
         ESCPOSPrinter.feedControl(0);
  ```
 
+see [index.html] (../posjs/index.html) 
+
 ### Example 2: Print text with different properties 
 
  ```js
@@ -34,6 +36,8 @@
         ESCPOSPrinter.feedControl(0);
         ESCPOSPrinter.feedControl(0); 
  ```
+
+see [index.html] (../posjs/index.html) 
  
 ### Example 3: Feed control and paper cut
 
@@ -46,6 +50,8 @@
         ESCPOSPrinter.feedControl(0);
         ESCPOSPrinter.cutPaper(); 
  ```
+
+see [index.html] (../posjs/index.html)  
  
 ### Example 4: Print an image with different sizes and locations
 
@@ -63,6 +69,8 @@
         ESCPOSPrinter.printImage(":/zimtronic-logo.png", 4, 1);
         ESCPOSPrinter.feedControl(0); 
  ```
+
+see [index.html] (../posjs/index.html) 
  
 ### Example 5: Print Barcode
 
@@ -104,6 +112,8 @@
         ESCPOSPrinter.feedControl(0); 
  ```
  
+see [index.html] (../posjs/index.html) 
+
 ### Example 6: Print QRCode
 
  ```js
@@ -119,6 +129,8 @@
         ESCPOSPrinter.printQRCode("ZIMTRONIC", 51, 9);
         ESCPOSPrinter.feedControl(0); 
  ```
+
+see [index.html] (../posjs/index.html) 
  
 ### Example 7: Print ticket example
 
@@ -170,3 +182,4 @@
         ESCPOSPrinter.cutPaper(); 
  ```
 
+see [index.html] (../posjs/index.html) 
