@@ -8,11 +8,13 @@
 
     function onBarcodePacketArrived(packet)
     {
+		//processing code
         alert("Barcode: "+packet);
     }
     
     function onMagneticPacketArrived(packet)
     {
+		//processing code
         alert("Magnetic: "+packet);
     }
  ```

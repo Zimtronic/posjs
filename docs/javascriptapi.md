@@ -7,6 +7,9 @@ The main advantage of using raw ESC/POS commands for printing instead
 of using the usb linux kernel driver is that the printing performance will be way faster.
 In addition, no other mechanism is needed to print beyond the application that we provide.
 
+All functions return an error code, you can obtain information about the errors
+using the getErrorString function.
+
 ### init()
 
 Initialize printer, hardware configuration and write the init command.
