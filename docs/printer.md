@@ -2,7 +2,7 @@
 
 ### Example 1: Print "HELLO WORLD"
 
- ```sh
+ ```js
         ESCPOSPrinter.init();
         ESCPOSPrinter.setTextProperties(0,0,4,2,2);
         ESCPOSPrinter.printRawText("...HELLO WORLD...");
@@ -11,7 +11,7 @@
 
 ### Example 2: Print text with different properties 
 
- ```sh
+ ```
         ESCPOSPrinter.init();
         ESCPOSPrinter.setTextProperties(2,0,0,1,1);
         ESCPOSPrinter.printRawText("align-left, font-A, type-B, width-normal, heigth-normal");
@@ -37,7 +37,7 @@
  
 ### Example 3: Feed control and paper cut
 
- ```sh
+ ```
         ESCPOSPrinter.init();
         ESCPOSPrinter.setTextProperties(0,0,0,1,1);
         ESCPOSPrinter.printRawText("Two empty lines and cut..");
@@ -49,7 +49,7 @@
  
 ### Example 4: Print an image with different sizes and locations
 
- ```sh
+ ```
         ESCPOSPrinter.init();
         ESCPOSPrinter.feedControl(0);
         ESCPOSPrinter.printImage(":/zimtronic-logo.png", 0, 9);
@@ -66,7 +66,7 @@
  
 ### Example 5: Print Barcode
 
- ```sh
+ ```
         ESCPOSPrinter.init();
         ESCPOSPrinter.setTextProperties(0,0,0,1,1);
         ESCPOSPrinter.feedControl(0);
@@ -106,7 +106,7 @@
  
 ### Example 6: Print QRCode
 
- ```sh
+ ```
         ESCPOSPrinter.init();
         ESCPOSPrinter.setTextProperties(0,0,0,1,1);
         ESCPOSPrinter.feedControl(0);
@@ -122,7 +122,7 @@
  
 ### Example 7: Print ticket example
 
- ```sh
+ ```
         ESCPOSPrinter.init();
         ESCPOSPrinter.printImage(":/zimtronic-pos.png", 1, 15);
         ESCPOSPrinter.feedControl(0);
