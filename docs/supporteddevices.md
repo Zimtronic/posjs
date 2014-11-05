@@ -37,3 +37,12 @@ devices:
 		devices.append(device);
 	}
    ```
+   
+3. Go to the project root, recompile and run again.
+
+  ```sh
+  cd posjs
+  make
+  sudo ./posjsbrowser
+  ```
+  
