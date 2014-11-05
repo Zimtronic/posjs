@@ -49,6 +49,6 @@ Initially we export three objects to the javascript context: `ESCPOSPrinter`, `B
 (see [using other devices section](docs/supporteddevices.md) to change object names and add other devices). 
 Then you can use this objects into the javascript code. 
 
-* [Using printers](docs/printer.md)
-* [Using HSB HID scanners](docs/hid.md)
 * [Javascript API](docs/javascriptapi.md)
+* [Using ESC/POS printers](docs/printer.md)
+* [Using HSB HID scanners](docs/hid.md)
