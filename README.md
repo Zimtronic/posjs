@@ -29,7 +29,7 @@ to access hardware-specific features like printing and scan text codes with HID 
 
 ## Supported devices
 
-Theoretically we support any ESC/POS based printer. ESC/POS protocol was designed by EPSON 
+Theoretically we support any ESC/POS based printer and compatible cash drawers. ESC/POS protocol was designed by EPSON 
 and is widely used by many other printer brands mainly on POS. Additionally, we support access
 to USB HID barcode scanners and magnetic card readers.
 
@@ -38,10 +38,16 @@ Default devices:
 * Printer EPSON TM-T20II
 * Barcode scanner MJ_tech V3.00
 * Magnetic card reader model MSR100 
+* Cash drawers, as the cash drawers are connected to the printer all Epson compatible cash drawers should work. 
 
 See [using other devices section](docs/supporteddevices.md).
 
 ## Developing a javascript app
+
+The main idea of ​​this project is provide a platform with hardware access to developing your own POS application. 
+Initially we export three objects to the javascript context: `ESCPOSPrinter`, `BarcodeScanner` and `MagneticScanner` 
+(See [using other devices section](docs/supporteddevices.md) to change object names and add other devices). 
+Then you can use this objects into the javascript code. 
 
 * [Using printers](docs/printer.md)
 * [Using HSB HID scanners](docs/hid.md)
