@@ -8,7 +8,7 @@
 
     /**
      * @class Device
-     * @brief
+     * @brief Devices class base
      *
      *
      * @author tony

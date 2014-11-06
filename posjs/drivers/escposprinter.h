@@ -110,7 +110,6 @@ public:
      * @param sizeScale
      * 0 <= sizeScale <= 20
      *
-     *
      * @see ITicketPrinter.printImage
      */
     Q_INVOKABLE unsigned printImage(QString pathImage, unsigned rightTab,
@@ -124,6 +123,7 @@ public:
      * String to be encoded in the barcode
      * Different barcodes have different requirements on the length
      * of data that can be encoded
+     *
      * @param type
      * Specify the type of barcode
      * 65 = UPC-A
@@ -135,15 +135,19 @@ public:
      * 71 = CODABAR
      * 72 = CODE93
      * 73 = CODE128
+     *
      * @param height
      * height of the barcode in points (1 <= n <= 255)
+     *
      * @param width
      * width of module (2 <= n <=6)
      * Barcode will not print if this value is too large
+     *
      * @param font
      * Set font of HRI characters
      * 0 = font A
      * 1 = font B
+     *
      * @param pos
      * set position of HRI characters
      * 0 = not printed

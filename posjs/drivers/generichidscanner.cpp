@@ -24,8 +24,7 @@ void GenericHIDScanner::run()
         {
             transport->close();
             result = transport->open(id);
-            cout << "close open " <<result<< endl;
-            usleep(5);
+            usleep(50);
         }
 
         bufferSize = 8;

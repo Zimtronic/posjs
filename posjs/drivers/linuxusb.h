@@ -75,6 +75,8 @@ protected:
     struct usb_dev_handle *handle; /**< Connection handler */
 
     bool isOpen; /**< Connection state */
+
+    bool debug;
 };
 
 #endif // LINUXUSB_H

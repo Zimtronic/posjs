@@ -27,6 +27,9 @@ public:
      */
     GenericHIDScanner();
 
+    /**
+     * @brief Reimplemented thread run method
+     */
     void run();
 
     /**
