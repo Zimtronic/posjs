@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>index.html</file>
-        <file>zimtronic-logo.png</file>
-        <file>zimtronic-pos.png</file>
+        <file alias="zimtronic-logo.png">../docs/images/zimtronic-logo.png</file>
+        <file alias="zimtronic-pos.png">../docs/images/zimtronic-pos.png</file>
     </qresource>
 </RCC>

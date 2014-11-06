@@ -3,13 +3,13 @@
 
 #include <QtWidgets>
 
-/**
- * @class MainWindow
- * @brief Posjs visual browser
- *
- * @author tony
- * @date 18-10-2014
- */
+    /**
+     * @class MainWindow
+     * @brief Posjs visual browser
+     *
+     * @author tony
+     * @date 18-10-2014
+     */
 
 class QWebView;
 class QLineEdit;
