@@ -4,6 +4,8 @@ Posjs is a web based POS(Point of Sale) container and hardware bridge. We use th
 mechanism to extend javascript environment with c++ objects. That objects are used 
 to access hardware-specific features like printing and scan text codes with HID USB devices.
 
+See [LICENSE](LICENSE).
+
 ## Building
 
 ### Requirements
