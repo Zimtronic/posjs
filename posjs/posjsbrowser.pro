@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT   += core webkitwidgets network widgets
+QT   += core webkitwidgets network widgets testlib
 
 LIBS += -L/usr/lib/$$system(uname -i)-linux-gnu
 LIBS += -lusb
@@ -17,23 +17,11 @@ TEMPLATE = app
 INCLUDEPATH += /usr/include
 
 SOURCES += main.cpp \
-    browser/mainwindow.cpp \
-    drivers/linuxusb.cpp \
-    drivers/escposprinter.cpp \
-    drivers/generichidscanner.cpp \
-    drivers/device.cpp
+    browser/mainwindow.cpp
 
 HEADERS += \
     browser/mainwindow.h \
-    drivers/itransport.h \
-    drivers/linuxusb.h \
-    drivers/iticketprinter.h \
-    drivers/escposprinter.h \
-    drivers/escposcommands.h \
-    drivers/errors.h \
-    drivers/generichidscanner.h \
-    drivers/hidtable.h \
-    drivers/device.h
+    posdriverinterface.h
 
 RESOURCES += \
     resource.qrc

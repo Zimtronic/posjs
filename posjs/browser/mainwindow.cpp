@@ -3,10 +3,13 @@
 #include <QtWebKitWidgets>
 
 #include "mainwindow.h"
-#include "drivers/device.h"
-#include "drivers/escposprinter.h"
-#include "drivers/linuxusb.h"
-#include "drivers/generichidscanner.h"
+//#include "drivers/device.h"
+//#include "drivers/escposprinter.h"
+//#include "drivers/linuxusb.h"
+//#include "drivers/generichidscanner.h"
+
+#include <QDir>
+#include <QPluginLoader>
 
 using namespace std;
 #include <iostream>
@@ -43,7 +46,8 @@ MainWindow::MainWindow(const QUrl& url)
     setCentralWidget(view);
     setUnifiedTitleAndToolBarOnMac(true);
 
-    createDevices();
+    //createDevices();
+    loadDriver();
 
     QObject::connect(view->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()),
                          this, SLOT(addJSObject()));
@@ -72,34 +76,22 @@ void MainWindow::slotSourceDownloaded()
     reply->deleteLater();
 }
 
-void MainWindow::createDevices()
+void MainWindow::loadDriver()
 {
-    //      supported devices
+    QPluginLoader pluginLoader("libposjs.so");
+    pluginLoader.load();
+    QObject *plugin = pluginLoader.instance();
 
-    //    ESCPOSPrinter 0E15 04B8
-    //    BarcodeScanner 1010 05FE
-    //    MagneticScanner 0001 0801
+    posdriver = qobject_cast<POSDriverInterface*>(plugin);
 
-    Device * device;
-    device = new ESCPOSPrinter();
-    device->setName("ESCPOSPrinter");
-    device->setIdProduct(0x0e15);
-    device->setIdVendor(0x04b8);
-    devices.append(device);
-
-    device = new GenericHIDScanner();
-    device->setName("BarcodeScanner");
-    device->setIdProduct(0x1010);
-    device->setIdVendor(0x05FE);
-    ((GenericHIDScanner*)device)->start();
-    devices.append(device);
-
-    device = new GenericHIDScanner();
-    device->setName("MagneticScanner");
-    device->setIdProduct(0x0001);
-    device->setIdVendor(0x0801);
-    ((GenericHIDScanner*)device)->start();
-    devices.append(device);
+    if(posdriver)
+    {
+        cout << "libposjs OK...!!!"<< endl;
+    }
+    else
+    {
+        cout << "libposjs not found...!!!"<< endl;
+    }
 }
 
 void MainWindow::adjustLocation()
@@ -138,16 +130,12 @@ void MainWindow::addJSObject()
 {
     QWebFrame *frame = view->page()->mainFrame();
 
-    ESCPOSPrinter* printer;
-    GenericHIDScanner* hid;
-
-    for (int i = 0; i < devices.size(); ++i)
+    if (posdriver)
     {
-        printer = dynamic_cast<ESCPOSPrinter*>(devices.at(i));
-        hid = dynamic_cast<GenericHIDScanner*>(devices.at(i));
-        if(printer)
-            frame->addToJavaScriptWindowObject(devices.at(i)->getName(), printer);
-        else if(hid)
-            frame->addToJavaScriptWindowObject(devices.at(i)->getName(), hid);
+        cout << "Plugin OK...!!!"<< endl;
+
+        frame->addToJavaScriptWindowObject("ESCPOSPrinter", (QObject*)posdriver->getESCPOSPrinterInstance());
+        frame->addToJavaScriptWindowObject("BarcodeScanner", (QObject*)posdriver->getBarcodeScannerInstance());
+        frame->addToJavaScriptWindowObject("MagneticScanner", (QObject*)posdriver->getMagneticScannerInstance());
     }
 }

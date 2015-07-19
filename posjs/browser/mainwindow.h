@@ -14,7 +14,7 @@
 class QWebView;
 class QLineEdit;
 
-class Device;
+#include "posdriverinterface.h"
 
 class MainWindow : public QMainWindow
 {
@@ -42,9 +42,8 @@ private:
     QLineEdit *locationEdit;
     int progress;
 
-    QList<Device *> devices;
-
-    void createDevices();
+    void loadDriver();
+    POSDriverInterface *posdriver;
 };
 
 #endif // MAINWINDOW_H
