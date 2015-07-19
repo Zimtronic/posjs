@@ -1,5 +1,5 @@
 #include <QtWidgets>
-#include "browser/mainwindow.h"
+#include "mainwindow.h"
 
 int main(int argc, char * argv[])
 {

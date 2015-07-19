@@ -17,11 +17,11 @@ TEMPLATE = app
 INCLUDEPATH += /usr/include
 
 SOURCES += main.cpp \
-    browser/mainwindow.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    browser/mainwindow.h \
-    posdriverinterface.h
+    posdriverinterface.h \
+    mainwindow.h
 
 RESOURCES += \
     resource.qrc
