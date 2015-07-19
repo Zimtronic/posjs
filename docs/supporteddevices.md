@@ -4,10 +4,10 @@ By default we work with three devices: printer EPSON TM-T20II, barcode scanner M
 and magnetic card reader model MSR100. For now we have a laborious mechanism to change or add 
 devices:
 
-1. Go to [mainwindow.cpp](../posjs/browser/mainwindow.cpp) file in the source code.
-2. Modify the createDevice() function:
+1. Go to [mainwindow.cpp](../posjs/mainwindow.cpp) file in the source code.
+2. Modify the addJSObject() function:
    ```cpp
-    void MainWindow::createDevices()
+    void MainWindow::addJSObject()
 	{
 		//      supported devices
 
@@ -15,26 +15,14 @@ devices:
 		//    BarcodeScanner 1010 05FE
 		//    MagneticScanner 0001 0801
 
-		Device * device;
-		device = new ESCPOSPrinter();
-		device->setName("ESCPOSPrinter");
-		device->setIdProduct(0x0e15);
-		device->setIdVendor(0x04b8);
-		devices.append(device);
+		QWebFrame *frame = view->page()->mainFrame();
 
-		device = new GenericHIDScanner();
-		device->setName("BarcodeScanner");
-		device->setIdProduct(0x1010);
-		device->setIdVendor(0x05FE);
-		((GenericHIDScanner*)device)->start();
-		devices.append(device);
-
-		device = new GenericHIDScanner();
-		device->setName("MagneticScanner");
-		device->setIdProduct(0x0001);
-		device->setIdVendor(0x0801);
-		((GenericHIDScanner*)device)->start();
-		devices.append(device);
+		if (posdriver)
+		{
+			frame->addToJavaScriptWindowObject("ESCPOSPrinter", (QObject*)posdriver->getESCPOSPrinterInstance());
+			frame->addToJavaScriptWindowObject("BarcodeScanner", (QObject*)posdriver->getBarcodeScannerInstance());
+			frame->addToJavaScriptWindowObject("MagneticScanner", (QObject*)posdriver->getMagneticScannerInstance());
+		}
 	}
    ```
    
@@ -43,6 +31,6 @@ devices:
   ```sh
   cd posjs
   make
+  export QT_PLUGIN_PATH=path_to_libposjs.so
   sudo ./posjsbrowser
   ```
-  

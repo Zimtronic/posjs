@@ -2,7 +2,8 @@
 
 Posjs is a web based POS(Point of Sale) container and hardware bridge. We use the Qt WebKit bridge 
 mechanism to extend javascript environment with c++ objects. That objects are used 
-to access hardware-specific features like printing and scan text codes with HID USB devices.
+to access hardware-specific features like printing and scan text codes with HID USB devices 
+(See [libposjs](https://github.com/Zimtronic/libposjs)).
 
 See [LICENSE](LICENSE).
 
@@ -15,6 +16,7 @@ See [LICENSE](LICENSE).
 * libusb-0.1-4.
 * [Git](http://git-scm.com/).
 * [Qt5.3.0](http://qt-project.org/downloads).
+* [libposjs](https://github.com/Zimtronic/libposjs).
 
 ### Build and run
 
@@ -27,7 +29,8 @@ See [LICENSE](LICENSE).
   
 2. Execute `qmake` to create Makefile. 
 3. Execute `make` to compile.
-4. Execute `sudo ./posjsbrowser` to run the posjs browser app. Don't forget to prefix with `sudo`. 
+4. Execute `export QT_PLUGIN_PATH=path_to_libposjs.so`. 
+5. Execute `sudo ./posjsbrowser` to run the posjs browser app. Don't forget to prefix with `sudo`. 
 
 ## Supported devices
 
